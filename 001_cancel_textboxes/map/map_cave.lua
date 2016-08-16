@@ -95,14 +95,10 @@ function CreateCaveMap(state)
         local sayDef = { textScale = 1.5 }
         local bossTalk =
         {
-            SOP.Say("handin", "hero", "Gemstone received.", 1, sayDef),
-            SOP.Wait(0.3),
-            SOP.Say("handin", "hero", "Trespass in MY house?", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "hero", "KILL MY SERVANTS?", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "hero", "STEAL?", 3, sayDef),
-            SOP.Wait(0.2),
+            SOP.Say("handin", "hero", "Gemstone received.", 1.3, sayDef),
+            SOP.Say("handin", "hero", "Trespass in MY house?", 3.2, sayDef),
+            SOP.Say("handin", "hero", "KILL MY SERVANTS?", 3.2, sayDef),
+            SOP.Say("handin", "hero", "STEAL?", 3.2, sayDef),
             SOP.Say("handin", "hero", "You must be punished!", 3, sayDef),
             SOP.RunAction("Combat", { map, combatDef }),
             SOP.HandOff("handin"),

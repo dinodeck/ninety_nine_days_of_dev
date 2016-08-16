@@ -52,20 +52,13 @@ function CreateTownMap(state)
         local bossTalk =
         {
             SOP.BlackScreen("blackscreen", 0),
-            SOP.Say("handin", "hero", "Gemstone removed.", 1.75, sayDef),
-            SOP.Wait(0.3),
-            SOP.Say("handin", "major", "Ah, the gemstone. Thank you.", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "major", "Fools!", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "major", "How long I've waited.", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "major", "Killing the major, taking his form...", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "major", "To return to the corporeal realm...", 3, sayDef),
-            SOP.Wait(0.2),
-            SOP.Say("handin", "major", "and FEED!", 3, sayDef),
-            SOP.Wait(0.2),
+            SOP.Say("handin", "hero", "Gemstone removed.", 2.05, sayDef),
+            SOP.Say("handin", "major", "Ah, the gemstone. Thank you.", 3.2, sayDef),
+            SOP.Say("handin", "major", "Fools!", 3.2, sayDef),
+            SOP.Say("handin", "major", "How long I've waited.", 3.2, sayDef),
+            SOP.Say("handin", "major", "Killing the major, taking his form...", 3.2, sayDef),
+            SOP.Say("handin", "major", "To return to the corporeal realm...", 3.2, sayDef),
+            SOP.Say("handin", "major", "and FEED!", 3.2, sayDef),
             SOP.RunAction("Combat", { map, combatDef }),
             SOP.NoBlock(
               SOP.Say("handin", "major", "Noooooo!", 1.5, sayDef)
