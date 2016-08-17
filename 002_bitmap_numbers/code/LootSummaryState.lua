@@ -112,25 +112,49 @@ function LootSummaryState:Render(renderer)
     renderer:AlignText("center", "center")
     renderer:DrawText2d(titleX, titleY, "Found Loot!")
 
+
+    --
+    -- Gold Found
+    --
+
     renderer:AlignText("left", "center")
     renderer:ScaleText(1.25, 1.25)
     local leftX = self.mLayout:Left('left') + 12
     local leftValueX = self.mLayout:Right('left') - 12
     local leftY = self.mLayout:MidY('left')
     local goldLabelStr = "Gold Found:"
-    local goldValueStr = string.format("%d gp", self.mGold)
+    local goldValueStr = string.format("%d", self.mGold)
     renderer:DrawText2d(leftX, leftY, goldLabelStr)
-    renderer:AlignText("right", "center")
-    renderer:DrawText2d(leftValueX, leftY, goldValueStr)
+
+    gNumberFont:AlignText("left", "center")
+    renderer:AlignText("left", "center")
+    local foundGoldWidth = gNumberFont:CalcWidth(goldValueStr)
+    leftValueX = leftValueX - (foundGoldWidth + 12)
+    gNumberFont:DrawText2d(renderer, leftValueX, leftY, goldValueStr)
+
+    renderer:ScaleText(1.0, 1.0)
+    renderer:DrawText2d(leftValueX + foundGoldWidth + 3, leftY, "gp")
+    renderer:ScaleText(1.25, 1.25)
+
+    --
+    -- Party Gold Below
+    --
 
     renderer:AlignText("left", "center")
     local rightX = self.mLayout:Left('right') + 12
     local rightValueX = self.mLayout:Right('right') - 12
     local rightY = leftY
-    local partyGPStr = string.format("%d gp", self.mWorld.mGold)
+    local partyGPStr = string.format("%d", self.mWorld.mGold)
     renderer:DrawText2d(rightX, rightY, "Party Gold:")
-    renderer:AlignText("right", "center")
-    renderer:DrawText2d(rightValueX, rightY, partyGPStr)
+    gNumberFont:AlignText("left", "center")
+    renderer:AlignText("left", "center")
+    local goldWidth = gNumberFont:CalcWidth(partyGPStr)
+    local goldValueX = rightValueX - (goldWidth + 12)
+    gNumberFont:DrawText2d(renderer, goldValueX, rightY, partyGPStr)
+
+    renderer:ScaleText(1.0, 1.0)
+    renderer:DrawText2d(goldValueX + goldWidth + 3, rightY, "gp")
+    renderer:ScaleText(1.25, 1.25)
 
     renderer:AlignText("center", "center")
 

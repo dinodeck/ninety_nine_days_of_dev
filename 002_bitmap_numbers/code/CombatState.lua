@@ -268,15 +268,18 @@ function CombatState:DrawHP(renderer, x, y, hp, max)
         hpColor = Vector.Create(1,1,0,1)
     end
 
+    gNumberFont:AlignText("left", "center")
+
     local xPos = x
     local hp = string.format('%d', hp)
-    renderer:DrawText2d(xPos, y, hp, hpColor)
-    local size = renderer:MeasureText(hp)
+    gNumberFont:DrawText2d(renderer, xPos, y, hp, hpColor)
+    -- renderer:DrawText2d(xPos, y, hp, hpColor)
+    local size = gNumberFont:MeasureText(hp)
     xPos = xPos + size:X() + 3
-    renderer:DrawText2d(xPos, y, '/')
-    size = renderer:MeasureText('/')
+    gNumberFont:DrawText2d(renderer, xPos, y, '/')
+    size = gNumberFont:MeasureText('/')
     xPos = xPos + size:X() - 1
-    renderer:DrawText2d(xPos, y, max)
+    gNumberFont:DrawText2d(renderer, xPos, y, max)
 
 end
 
@@ -297,7 +300,9 @@ function CombatState:RenderPartyStats(renderer, x, y, item)
     x = x + self.mStatsYCol
 
     local mpStr = string.format("%d", stats:Get('mp_now'))
-    renderer:DrawText2d(x, y, mpStr)
+    -- renderer:DrawText2d(x, y, mpStr)
+    gNumberFont:AlignText("left", "center")
+    gNumberFont:DrawText2d(renderer, x, y, mpStr)
     bars.mMP:SetPosition(x + barOffset * 0.7, y)
     bars.mMP:SetValue(stats:Get('mp_now'))
     bars.mMP:Render(renderer)

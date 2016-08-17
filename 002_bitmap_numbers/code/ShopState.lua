@@ -191,8 +191,10 @@ function ShopState:RenderStock(menu, renderer, x, y, item)
     self.mWorld:DrawItem(menu, renderer, x, y, item, color)
 
     renderer:AlignTextX("right")
-    local priceStr = string.format(": %d", item.price)
-    renderer:DrawText2d(self.mPriceX, y, priceStr, color)
+    renderer:DrawText2d(self.mPriceX, y, ": ")
+    gNumberFont:AlignTextX("right")
+    local priceStr = string.format("%d", item.price)
+    gNumberFont:DrawText2d(renderer, self.mPriceX + 6, y, priceStr, color)
 end
 
 function ShopState:RenderInventory(menu, renderer, x, y, item)
@@ -204,9 +206,11 @@ function ShopState:RenderInventory(menu, renderer, x, y, item)
     self.mWorld:DrawItem(menu, renderer, x, y, item)
 
     local def = ItemDB[item.id]
-    renderer:AlignTextX("right")
-    local priceStr = string.format(": %d", def.price)
-    renderer:DrawText2d(self.mPriceX, y, priceStr)
+    renderer:AlignTextX("left")
+    renderer:DrawText2d(self.mPriceX - 18, y, ":", color)
+    local priceStr = string.format("%d", def.price)
+    gNumberFont:AlignTextX("right")
+    gNumberFont:DrawText2d(renderer, self.mPriceX + 16, y, priceStr)
 end
 
 function ShopState:BackToChooseState()
@@ -435,10 +439,10 @@ function ShopState:Render(renderer)
     renderer:DrawText2d(statusX, statusY - 32, invText)
     renderer:DrawText2d(statusX, statusY - 50, equipText)
 
-    renderer:AlignText("left", "center")
-    renderer:DrawText2d(valueX, statusY, gpValue)
-    renderer:DrawText2d(valueX, statusY - 32, invValue)
-    renderer:DrawText2d(valueX, statusY - 50, equipValue)
+    gNumberFont:AlignText("left", "center")
+    gNumberFont:DrawText2d(renderer, valueX, statusY, gpValue)
+    gNumberFont:DrawText2d(renderer, valueX, statusY - (32-4), invValue)
+    gNumberFont:DrawText2d(renderer, valueX, statusY - (50-4), equipValue)
 
     renderer:AlignText("left", "center")
     renderer:ScaleText(1,1)

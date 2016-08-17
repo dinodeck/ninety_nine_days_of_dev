@@ -377,9 +377,9 @@ manifest =
         {
             path = "code/BitmapText.lua"
         },
-        ['NumberFont.lua'] =
+        ['NumberFontDef.lua'] =
         {
-            path = "code/font/NumberFont.lua"
+            path = "code/font/NumberFontDef.lua"
         },
     },
     textures =

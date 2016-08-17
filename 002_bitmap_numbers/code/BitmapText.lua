@@ -26,6 +26,14 @@ function BitmapText:AlignText(x, y)
     self.mAlignY = y
 end
 
+function BitmapText:AlignTextX(x)
+    self.mAlignX = x
+end
+
+function BitmapText:AlignTextY(y)
+    self.mAlignY = y
+end
+
 function BitmapText:IndexToUV(x, y)
     local width = self.mGlyphW/self.mWidth
     local height = self.mGlyphH/self.mHeight
@@ -263,6 +271,10 @@ function BitmapText:CountLines(text, maxWidth)
     local outStart = -1
 
     local textLen = string.len(text)
+
+    if textLen == 1 then
+        return 1
+    end
 
     while lineEnd < textLen do
 

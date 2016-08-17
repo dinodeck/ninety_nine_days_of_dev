@@ -37,13 +37,15 @@ end
 
 function JumpingNumbers:Render(renderer)
 
-    renderer:ScaleText(self.mScale, self.mScale)
-    renderer:AlignText("center", "center")
-
     local x = self.mX
     local y = math.floor(self.mCurrentY)
     local n = tostring(self.mNumber)
-    renderer:DrawText2d(x + 2, y - 2, n, Vector.Create(0,0,0, self.mColor:W()))
-    renderer:DrawText2d(x, y, n, self.mColor)
+
+
+    local font = gNumberFont
+    font:AlignText("center", "center")
+    font:DrawText2d(renderer, x + 1, y - 1, n, Vector.Create(0,0,0, self.mColor:W()))
+    font:DrawText2d(renderer, x, y, n, self.mColor)
+
 
 end

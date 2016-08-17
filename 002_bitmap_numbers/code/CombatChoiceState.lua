@@ -170,8 +170,9 @@ function CombatChoiceState:OnSpecialAction()
                     color = Vector.Create(0.7, 0.7, 0.7, 1)
                 end
 
-                renderer:AlignText("right", "center")
-                renderer:DrawText2d(x + 96, y, cost, color)
+
+                gNumberFont:AlignText("right", "center")
+                gNumberFont:DrawText2d(renderer, x + 96, y, cost, color)
             end
         end
         renderer:AlignText("left", "center")
@@ -247,8 +248,8 @@ function CombatChoiceState:OnMagicAction()
                 color = Vector.Create(0.7, 0.7, 0.7, 1)
             end
 
-            renderer:AlignText("right", "center")
-            renderer:DrawText2d(x + 96, y, cost, color)
+            gNumberFont:AlignText("right", "center")
+            gNumberFont:DrawText2d(renderer, x + 96, y, cost, color)
         end
         renderer:AlignText("left", "center")
         renderer:DrawText2d(x, y, text, color)

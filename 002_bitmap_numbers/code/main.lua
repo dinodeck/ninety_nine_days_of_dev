@@ -2,7 +2,7 @@ LoadLibrary('Asset')
 Asset.Run('Dependencies.lua')
 
 gRenderer = Renderer.Create()
-gNumberFont = BitmapText:Create(NumberFont)
+gNumberFont = BitmapText:Create(NumberFontDef)
 
 
 function SetupNewGame()

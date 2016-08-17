@@ -1,4 +1,4 @@
-NumberFont =
+NumberFontDef =
 {
     texture = "number_font.png",
     width = 8,

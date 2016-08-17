@@ -109,6 +109,6 @@ Apply({
         "Blob.lua",
         "Save.lua",
         "BitmapText.lua",
-        "NumberFont.lua"
+        "NumberFontDef.lua"
     },
     function(v) Asset.Run(v) end)
