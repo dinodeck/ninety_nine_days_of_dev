@@ -46,6 +46,7 @@ function StatusMenuState:Enter(actor)
         spacingY = 18,
         RenderItem = function(self, renderer, x, y, item)
             local label = Actor.ActionLabels[item]
+            renderer:ScaleText(1,1)
             Selection.RenderItem(self, renderer, x, y, label)
         end
     }
@@ -67,7 +68,7 @@ function StatusMenuState:DrawStat(renderer, x, y, label, value)
     renderer:AlignText("right", "center")
     renderer:DrawText2d(x -5, y, label)
     gNumberFont:AlignText(renderer, "left", "center")
-    gNumberFont:DrawText2d(renderer, x + 5, y, tostring(value))
+    gNumberFont:DrawText2d(renderer, x + 5, y + 3, tostring(value))
 
 end
 
@@ -117,10 +118,10 @@ function StatusMenuState:Render(renderer)
     end
 
     renderer:AlignText("left", "top")
-    local x = 75
-    local y = 25
+    local x = 80
+    local y = 36
     local w = 100
-    local h = 56
+    local h = 84
     -- this should be a panel - duh!
     local box = Textbox:Create
     {
