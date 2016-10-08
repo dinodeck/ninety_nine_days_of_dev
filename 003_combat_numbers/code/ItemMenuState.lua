@@ -29,26 +29,26 @@ function ItemMenuState:Create(parent)
         {
             Selection:Create
             {
-                data = gWorld.mItems,
+                data = gGame.World.mItems,
                 spacingX = 256,
                 columns = 2,
                 displayRows = 8,
                 spacingY = 28,
                 rows = 20,
                 RenderItem = function(self, renderer, x, y, item)
-                    gWorld:DrawItem(self, renderer, x, y, item)
+                    gGame.World:DrawItem(self, renderer, x, y, item)
                 end
             },
             Selection:Create
             {
-                data = gWorld.mKeyItems,
+                data = gGame.World.mKeyItems,
                 spacingX = 256,
                 columns = 2,
                 displayRows = 8,
                 spacingY = 28,
                 rows = 20,
                 RenderItem = function(self, renderer, x, y, item)
-                    gWorld:DrawKey(self, renderer, x, y, item)
+                    gGame.World:DrawKey(self, renderer, x, y, item)
                 end
             },
         },

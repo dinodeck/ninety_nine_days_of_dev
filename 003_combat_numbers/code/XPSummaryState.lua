@@ -205,7 +205,7 @@ end
 
 function XPSummaryState:GotoLootSummary()
     local lootSummaryState = LootSummaryState:Create(self.mStack,
-                                                     gWorld,
+                                                     gGame.World,
                                                      self.mCombatData)
     -- CombatState is on top, let's push the loot summary state behind it.
     local storyboard =

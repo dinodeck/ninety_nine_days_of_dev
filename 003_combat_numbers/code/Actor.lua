@@ -242,7 +242,7 @@ function Actor:Equip(slot, item)
     if prevItem then
         -- Remove modifier
         self.mStats:RemoveModifier(slot)
-        gWorld:AddItem(prevItem)
+        gGame.World:AddItem(prevItem)
     end
 
     -- 2. If there's a replacement item move it to the slot
@@ -250,7 +250,7 @@ function Actor:Equip(slot, item)
         return
     end
     assert(item.count > 0) -- This should never be allowed to happen!
-    gWorld:RemoveItem(item.id)
+    gGame.World:RemoveItem(item.id)
     self.mEquipment[slot] = item.id
     local modifier = ItemDB[item.id].stats or {}
     self.mStats:AddModifier(slot, modifier)

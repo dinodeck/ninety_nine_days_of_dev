@@ -350,7 +350,7 @@ end
 
 function SOP.ReplaceScene(name, params)
     return function(storyboard)
-        gWorld.mParty:DebugPrintParty()
+        gGame.World.mParty:DebugPrintParty()
         local state = storyboard.mStates[name]
         print("Replace scene tried to get", name, "got", state.mId)
 
@@ -359,12 +359,12 @@ function SOP.ReplaceScene(name, params)
         storyboard.mStates[name] = nil
         storyboard.mStates[id] = state
 
-        local mapDef = MapDB[params.map](gWorld.mGameState)
+        local mapDef = MapDB[params.map](gGame.World.mGameState)
         state.mMap =  Map:Create(mapDef)
         state.mMapDef = mapDef
 
         print("after map created")
-        gWorld.mParty:DebugPrintParty()
+        gGame.World.mParty:DebugPrintParty()
 
         state.mMap:GotoTile(params.focusX, params.focusY)
         state.mHero = Character:Create(gCharacters.hero, state.mMap)
@@ -381,7 +381,7 @@ function SOP.ReplaceScene(name, params)
             state:ShowHero()
         end
 
-        gWorld.mParty:DebugPrintParty()
+        gGame.World.mParty:DebugPrintParty()
         return SOP.NoBlock(SOP.Wait(0.1))()
     end
 end

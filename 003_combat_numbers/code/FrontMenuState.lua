@@ -166,7 +166,7 @@ end
 
 function FrontMenuState:CreatePartySummaries()
 
-    local partyMembers = gWorld.mParty.mMembers
+    local partyMembers = gGame.World.mParty.mMembers
 
     local out = {}
     for _, v in pairs(partyMembers) do
@@ -210,8 +210,8 @@ function FrontMenuState:Render(renderer)
     renderer:AlignText("left", "top")
 
     font:AlignText("left", "top")
-    font:DrawText2d(renderer, math.floor(goldX + 10), math.floor(goldY), gWorld:GoldAsString())
-    font:DrawText2d(renderer, goldX + 10, goldY - 25, gWorld:TimeAsString())
+    font:DrawText2d(renderer, math.floor(goldX + 10), math.floor(goldY), gGame.World:GoldAsString())
+    font:DrawText2d(renderer, goldX + 10, goldY - 25, gGame.World:TimeAsString())
 
     local partyX = self.mLayout:Left("party") - 16
     local partyY = self.mLayout:Top("party") - 45

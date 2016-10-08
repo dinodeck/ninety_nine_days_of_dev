@@ -64,7 +64,7 @@ Actions =
             local trigger = Trigger:Create(
             {
                 OnUse = function()
-                    gWorld.mParty:Rest()
+                    gGame.World.mParty:Rest()
                     local askMsg = "Save progress?"
                     gGame.Stack:PushFit(gRenderer, 0, 0, askMsg, false,
                     {
@@ -89,7 +89,7 @@ Actions =
         map.mContainerCount = map.mContainerCount + 1
         local containerId = map.mContainerCount
         local mapId = map.mMapDef.id
-        local state = gWorld.mGameState.maps[mapId]
+        local state = gGame.World.mGameState.maps[mapId]
         local isLooted = state.chests_looted[containerId] or false
 
         return function(trigger, entity, tX, tY, tLayer)
@@ -115,7 +115,7 @@ Actions =
                     gGame.Stack:PushFit(gRenderer, 0, 0, "The chest is empty!", 300)
                 else
 
-                    gWorld:AddLoot(loot)
+                    gGame.World:AddLoot(loot)
 
                     for _, item in ipairs(loot) do
 
@@ -154,7 +154,7 @@ Actions =
 
     OpenShop = function(map, def)
         return function(trigger, entity, tX, tY, tLayer)
-            gGame.Stack:Push(ShopState:Create(gGame.Stack, gWorld, def))
+            gGame.Stack:Push(ShopState:Create(gGame.Stack, gGame.World, def))
         end
     end,
 
@@ -175,9 +175,9 @@ Actions =
                 return
             end
 
-            gWorld.mGold = gWorld.mGold - cost
+            gGame.World.mGold = gGame.World.mGold - cost
 
-            gWorld.mParty:Rest()
+            gGame.World.mParty:Rest()
 
             --gGame.Stack:PushFit(gRenderer, 0, 0, lackGPMsg)
             gGame.Stack:PushFit(gRenderer, 0, 0, resultMsg)
@@ -185,7 +185,7 @@ Actions =
 
         return function(trigger, entity, tX, tY, tLayer)
 
-            local gp = gWorld.mGold
+            local gp = gGame.World.mGold
 
             if gp >= cost then
                 gGame.Stack:PushFit(gRenderer, 0, 0, askMsg, false,
@@ -227,13 +227,13 @@ Actions =
                 }),
             SOP.FadeOutScreen("blackscreen", 0.5),
             SOP.Function(function()
-                            gWorld:UnlockInput()
+                            gGame.World:UnlockInput()
                          end),
             SOP.HandOff(destinationId),
         }
 
         return function(trigger, entity, tX, tY, tLayer)
-            gWorld:LockInput()
+            gGame.World:LockInput()
             local storyboard = Storyboard:Create(gGame.Stack, storyboard, true)
             gGame.Stack:Push(storyboard)
         end
@@ -259,7 +259,7 @@ Actions =
                 background = def.background,
                 actors =
                 {
-                    party = gWorld.mParty:ToArray(),
+                    party = gGame.World.mParty:ToArray(),
                     enemy = enemyList,
                 },
                 canFlee = def.canFlee,

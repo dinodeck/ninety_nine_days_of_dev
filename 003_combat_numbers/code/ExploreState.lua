@@ -110,7 +110,7 @@ end
 
 function ExploreState:HandleInput()
 
-    if gWorld:IsInputLocked() then
+    if gGame.World:IsInputLocked() then
         return
     end
 

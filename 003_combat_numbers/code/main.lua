@@ -8,7 +8,8 @@ gGame =
         default = BitmapText:Create(NumberFontDef),
         damage = BitmapText:Create(DamageFontDef)
     },
-    Stack = {}
+    Stack = {},
+    World = {}
 }
 
 gRenderer = Renderer.Create()
@@ -16,22 +17,22 @@ gRenderer = Renderer.Create()
 
 function SetupNewGame()
     gGame.Stack = StateStack:Create()
-    gWorld = World:Create()
+    gGame.World = World:Create()
 
     local startPos = Vector.Create(5, 9, 1)
 
     local hero = Actor:Create(gPartyMemberDefs.hero)
     local thief = Actor:Create(gPartyMemberDefs.thief)
     local mage = Actor:Create(gPartyMemberDefs.mage)
-    gWorld.mParty:Add(hero)
-    gWorld.mParty:Add(thief)
-    gWorld.mParty:Add(mage)
+    gGame.World.mParty:Add(hero)
+    gGame.World.mParty:Add(thief)
+    gGame.World.mParty:Add(mage)
 
 
-    gWorld.mGold = 0
-    gWorld:AddItem(11, 3)
-    gWorld:AddItem(10, 5)
-    gWorld:AddItem(12, 5)
+    gGame.World.mGold = 0
+    gGame.World:AddItem(11, 3)
+    gGame.World:AddItem(10, 5)
+    gGame.World:AddItem(12, 5)
 
     local sayDef = { textScale = 1.3 }
     local intro =
@@ -84,16 +85,16 @@ function SetupNewGame()
         SOP.RunAction("RemoveNPC", {"handin", "mage"},
             {GetMapRef}),
         SOP.Function(function()
-                        gWorld.mGameState.maps.town.quest_given = true
+                        gGame.World.mGameState.maps.town.quest_given = true
                         -- give the reward amount!
-                        gWorld.mGold = gWorld.mGold + 500
+                        gGame.World.mGold = gGame.World.mGold + 500
                      end),
         SOP.Wait(0.1),
         SOP.HandOff("handin")
     }
 
     do
-        local map = MapDB['town'](gWorld.mGameState)
+        local map = MapDB['town'](gGame.World.mGameState)
         gGame.Stack:Push(ExploreState:Create(gGame.Stack, map, startPos))
     end
 
@@ -111,16 +112,16 @@ function update()
     local dt = GetDeltaTime()
     gGame.Stack:Update(dt)
     gGame.Stack:Render(gRenderer)
-    gWorld:Update(dt)
+    gGame.World:Update(dt)
 
     if Keyboard.JustPressed(KEY_H) then
-        gWorld.mGameState.maps.cave.completed_puzzle = false
-        gWorld.mParty:DebugHurtParty()
+        gGame.World.mGameState.maps.cave.completed_puzzle = false
+        gGame.World.mParty:DebugHurtParty()
     end
 
     if Keyboard.JustPressed(KEY_T) then
         print("teleport!")
-        gWorld:RemoveKey(14)
+        gGame.World:RemoveKey(14)
 
         local exploreState = gGame.Stack:Top()
         Actions.Teleport(exploreState.mMap, 56, 41, 1)(nil, exploreState.mHero.mEntity)

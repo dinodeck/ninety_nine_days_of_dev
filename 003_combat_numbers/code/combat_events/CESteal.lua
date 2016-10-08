@@ -132,7 +132,7 @@ function CESteal:DoSteal()
         local id = target.mStealItem
         local def = ItemDB[id]
         local name = def.name
-        gWorld:AddItem(id)
+        gGame.World:AddItem(id)
         target.mStealItem = nil
         local notice = string.format("Stolen: %s.", name)
         self.mState:ShowNotice(notice)

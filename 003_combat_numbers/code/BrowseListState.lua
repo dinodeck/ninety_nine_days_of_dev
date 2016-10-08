@@ -17,8 +17,8 @@ function BrowseListState:Create(params)
 
         mOnExit = params.OnExit or function() end,
         mOnFocus = params.OnFocus or function() end,
-        mUpArrow = gWorld.mIcons:Get('uparrow'),
-        mDownArrow = gWorld.mIcons:Get('downarrow'),
+        mUpArrow = gGame.World.mIcons:Get('uparrow'),
+        mDownArrow = gGame.World.mIcons:Get('downarrow'),
         mHide = false
     }
 

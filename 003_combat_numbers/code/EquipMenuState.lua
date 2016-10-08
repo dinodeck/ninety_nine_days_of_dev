@@ -8,8 +8,8 @@ function EquipMenuState:Create(parent)
         mStack = parent.mStack,
         mStateMachine = parent.mStateMachine,
         mScrollbar = Scrollbar:Create(Texture.Find('scrollbar.png'), 135),
-        mBetterSprite = gWorld.mIcons:Get('uparrow'),
-        mWorseSprite = gWorld.mIcons:Get('downarrow'),
+        mBetterSprite = gGame.World.mIcons:Get('uparrow'),
+        mWorseSprite = gGame.World.mIcons:Get('downarrow'),
         mInList = false
     }
 
@@ -58,7 +58,7 @@ function EquipMenuState:RefreshFilteredMenus()
 
 
     -- Actually sort inventory items into lists.
-    for k, v in ipairs(gWorld.mItems) do
+    for k, v in ipairs(gGame.World.mItems) do
 
         local item = ItemDB[v.id]
 
@@ -83,7 +83,7 @@ function EquipMenuState:RefreshFilteredMenus()
             spacingY = 26,
             rows = 20,
             RenderItem = function(self, renderer, x, y, item)
-                gWorld:DrawItem(self, renderer, x, y, item)
+                gGame.World:DrawItem(self, renderer, x, y, item)
             end,
             OnSelection = function(...) self:OnDoEquip(...) end
         }

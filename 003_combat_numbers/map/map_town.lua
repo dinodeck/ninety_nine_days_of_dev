@@ -39,7 +39,7 @@ function CreateTownMap(state)
 
     local gemstoneId = 14
 
-    if gWorld:HasKey(gemstoneId) then
+    if gGame.World:HasKey(gemstoneId) then
 
         local combatDef =
         {
@@ -68,7 +68,7 @@ function CreateTownMap(state)
             SOP.FadeInScreen(),
             SOP.Function(function()
                             gGame.Stack = StateStack:Create()
-                            gGame.Stack:Push(GameOverState:Create(gGame.Stack, gWorld, true))
+                            gGame.Stack:Push(GameOverState:Create(gGame.Stack, gGame.World, true))
                          end)
         }
 

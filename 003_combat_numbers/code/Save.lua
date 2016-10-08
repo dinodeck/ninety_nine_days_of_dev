@@ -67,7 +67,7 @@ function Save:Patch(data, save, scheme, dataParent, id)
         dataParent[id] = Save:Copy(save)
     elseif meta == 'each' then
         -- Create entry if it's missing
-        --print('each', id, dataParent == gWorld)
+        --print('each', id, dataParent == gGame.World)
         dataParent[id] = dataParent[id] or {}
         Save:PatchEach(data, save, scheme.value)
     end

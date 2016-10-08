@@ -525,7 +525,7 @@ function CombatState:OnWin()
     -- Create the story board and add the stats.
     local combatData = self:CalcCombatData()
     local xpSummaryState = XPSummaryState:Create(self.mGameStack,
-                                                 gWorld.mParty,
+                                                 gGame.World.mParty,
                                                  combatData)
     local storyboard =
     {
@@ -569,7 +569,7 @@ function CombatState:OnLose()
             SOP.UpdateState(self, 1.5),
             SOP.BlackScreen("black", 0),
             SOP.FadeInScreen("black"),
-            SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gWorld)),
+            SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gGame.World)),
             SOP.Wait(2),
             SOP.FadeOutScreen("black"),
         }

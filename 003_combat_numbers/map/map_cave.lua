@@ -80,7 +80,7 @@ function CreateCaveMap(state)
         local tiles = map.mMapDef.layers[5].data
         tiles[map:CoordToIndex(x, y - 1)] = 0
         map:RemoveTrigger(x, y, layer)
-        gWorld:AddKey(gemstoneId)
+        gGame.World:AddKey(gemstoneId)
 
         local combatDef =
         {
@@ -115,7 +115,7 @@ function CreateCaveMap(state)
         local tileTeleportId = 198
         local tileDirtId = 104
         -- Do you have gem?
-        if not gWorld:HasKey(gemstoneId) then
+        if not gGame.World:HasKey(gemstoneId) then
           return
         end
         -- Is the teleporter added?
@@ -166,17 +166,17 @@ function CreateCaveMap(state)
       local entity = map:GetEntity(x, y, layer)
       map:RemoveEntity(entity)
       map:RemoveTrigger(x, y, layer)
-      gWorld:AddKey(keystoneId)
+      gGame.World:AddKey(keystoneId)
       gGame.Stack:PushFit(gRenderer, 0, 0, "Keystone received.")
   end
 
   local DoorPlateInteract = function(map, trigger, entity, x, y, layer)
       layer = layer or 1
 
-      if gWorld:HasKey(keystoneId) then
+      if gGame.World:HasKey(keystoneId) then
 
           map:RemoveTrigger(x, y, layer)
-          gWorld:RemoveKey(keystoneId)
+          gGame.World:RemoveKey(keystoneId)
           local sphere = Entity:Create(gEntities['sphere'])
           sphere:SetTilePos(x, y, layer, map)
 
@@ -272,7 +272,7 @@ function CreateCaveMap(state)
           return
       end
 
-      if not gWorld:HasKey(keystoneId) then
+      if not gGame.World:HasKey(keystoneId) then
           -- Add the key sphere
           local key = Entity:Create(gEntities['sphere'])
           key:SetTilePos(keyX, keyY, 1, map)

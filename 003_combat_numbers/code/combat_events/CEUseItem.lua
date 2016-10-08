@@ -15,7 +15,7 @@ function CEUseItem:Create(state, owner, item, targets)
     }
 
     -- Remove item here, otherwise 2 people could try and use the 1 potion
-    gWorld:RemoveItem(item.id)
+    gGame.World:RemoveItem(item.id)
 
 
     this.mController = this.mCharacter.mController

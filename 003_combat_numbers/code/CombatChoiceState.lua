@@ -7,8 +7,8 @@ function CombatChoiceState:Create(context, actor)
         mCombatState = context,
         mActor = actor,
         mCharacter = context.mActorCharMap[actor],
-        mUpArrow = gWorld.mIcons:Get('uparrow'),
-        mDownArrow = gWorld.mIcons:Get('downarrow'),
+        mUpArrow = gGame.World.mIcons:Get('uparrow'),
+        mDownArrow = gGame.World.mIcons:Get('downarrow'),
         mMarker = Sprite.Create(),
         mHide = false,
     }
@@ -335,7 +335,7 @@ function CombatChoiceState:OnItemAction()
         local filter = function(def)
             return def.type == "useable"
         end
-        local filteredItems = gWorld:FilterItems(filter)
+        local filteredItems = gGame.World:FilterItems(filter)
 
 
         -- 2. Create the selection box
