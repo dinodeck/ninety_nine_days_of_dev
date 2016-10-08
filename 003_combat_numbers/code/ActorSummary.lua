@@ -72,6 +72,7 @@ end
 
 function ActorSummary:Render(renderer)
 
+    local font = gGame.Font.default
     local actor = self.mActor
 
     --
@@ -118,7 +119,7 @@ function ActorSummary:Render(renderer)
     local textY = math.floor(statsStartY - (self.mVerticalPad * 0.2))
     local textX = math.floor(textX + self.mLabelValuePad)
     renderer:AlignText("left", "top")
-    gNumberFont:AlignText("left", "top")
+    font:AlignText("left", "top")
     local level = actor.mLevel
     local hp = actor.mStats:Get("hp_now")
     local maxHP = actor.mStats:Get("hp_max")
@@ -134,13 +135,13 @@ function ActorSummary:Render(renderer)
                              maxMP)
 
 
-    gNumberFont:DrawText2d(renderer, textX, textY, "2")
+    font:DrawText2d(renderer, textX, textY, "2")
     textY = textY - self.mVerticalPad
     -- renderer:DrawText2d(textX, textY, hp)
-    gNumberFont:DrawText2d(renderer, textX, textY, hp)
+    font:DrawText2d(renderer, textX, textY, hp)
     textY = textY - self.mVerticalPad
 
-    gNumberFont:DrawText2d(renderer, textX, textY, mp)
+    font:DrawText2d(renderer, textX, textY, mp)
     -- renderer:DrawText2d(textX, textY, mp)
 
     --

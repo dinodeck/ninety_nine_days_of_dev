@@ -160,6 +160,7 @@ end
 
 function World:DrawItem(menu, renderer, x, y, item, color)
 
+    local font = gGame.Font.default
     color = color or Vector.Create(1, 1, 1, 1)
 
     if item then
@@ -177,9 +178,9 @@ function World:DrawItem(menu, renderer, x, y, item, color)
         if item.count then
             local right = x + menu.mSpacingX - 64
             -- renderer:AlignText("right", "center")
-            gNumberFont:AlignText("right", "center")
+            font:AlignText("right", "center")
             local countStr = string.format("%02d", item.count)
-            gNumberFont:DrawText2d(renderer, right, y, countStr, color)
+            font:DrawText2d(renderer, right, y, countStr, color)
         end
     else
         renderer:AlignText("center", "center")

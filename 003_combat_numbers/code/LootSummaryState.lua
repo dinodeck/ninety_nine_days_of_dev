@@ -97,6 +97,8 @@ end
 
 function LootSummaryState:Render(renderer)
 
+    local font = gGame.Font.default
+
     renderer:DrawRect2d(System.ScreenTopLeft(),
                     System.ScreenBottomRight(),
                     Vector.Create(0,0,0,1))
@@ -126,11 +128,11 @@ function LootSummaryState:Render(renderer)
     local goldValueStr = string.format("%d", self.mGold)
     renderer:DrawText2d(leftX, leftY, goldLabelStr)
 
-    gNumberFont:AlignText("left", "center")
+    font:AlignText("left", "center")
     renderer:AlignText("left", "center")
-    local foundGoldWidth = gNumberFont:CalcWidth(goldValueStr)
+    local foundGoldWidth = font:CalcWidth(goldValueStr)
     leftValueX = leftValueX - (foundGoldWidth + 12)
-    gNumberFont:DrawText2d(renderer, leftValueX, leftY, goldValueStr)
+    font:DrawText2d(renderer, leftValueX, leftY, goldValueStr)
 
     renderer:ScaleText(1.0, 1.0)
     renderer:DrawText2d(leftValueX + foundGoldWidth + 3, leftY, "gp")
@@ -146,11 +148,11 @@ function LootSummaryState:Render(renderer)
     local rightY = leftY
     local partyGPStr = string.format("%d", self.mWorld.mGold)
     renderer:DrawText2d(rightX, rightY, "Party Gold:")
-    gNumberFont:AlignText("left", "center")
+    font:AlignText("left", "center")
     renderer:AlignText("left", "center")
-    local goldWidth = gNumberFont:CalcWidth(partyGPStr)
+    local goldWidth = font:CalcWidth(partyGPStr)
     local goldValueX = rightValueX - (goldWidth + 12)
-    gNumberFont:DrawText2d(renderer, goldValueX, rightY, partyGPStr)
+    font:DrawText2d(renderer, goldValueX, rightY, partyGPStr)
 
     renderer:ScaleText(1.0, 1.0)
     renderer:DrawText2d(goldValueX + goldWidth + 3, rightY, "gp")

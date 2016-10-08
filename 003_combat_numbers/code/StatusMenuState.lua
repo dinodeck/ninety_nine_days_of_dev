@@ -67,12 +67,14 @@ end
 function StatusMenuState:DrawStat(renderer, x, y, label, value)
     renderer:AlignText("right", "center")
     renderer:DrawText2d(x -5, y, label)
-    gNumberFont:AlignText(renderer, "left", "center")
-    gNumberFont:DrawText2d(renderer, x + 5, y + 3, tostring(value))
+    gGame.Font.default:AlignText(renderer, "left", "center")
+    gGame.Font.default:DrawText2d(renderer, x + 5, y + 3, tostring(value))
 
 end
 
 function StatusMenuState:Render(renderer)
+
+    local font = gGame.Font.default
 
     for k,v in ipairs(self.mPanels) do
         v:Render(renderer)
@@ -95,8 +97,8 @@ function StatusMenuState:Render(renderer)
     local xpStr = string.format("%d/%d",
                                 self.mActor.mXP,
                                 self.mActor.mNextLevelXP)
-    gNumberFont:AlignText(renderer, "left", "top")
-    gNumberFont:DrawText2d(renderer, left + 264, top - 58, xpStr)
+    font:AlignText(renderer, "left", "top")
+    font:DrawText2d(renderer, left + 264, top - 58, xpStr)
 
     self.mEquipMenu:SetPosition(-10, -64)
     self.mEquipMenu:Render(renderer)

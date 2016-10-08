@@ -56,6 +56,8 @@ end
 
 function ActorXPSummary:Render(renderer)
 
+    local font = gGame.Font.default
+
     renderer:ScaleText(1.25, 1.25)
     -- Potrait
     local left = self.mLayout:Left(self.mId)
@@ -75,8 +77,8 @@ function ActorXPSummary:Render(renderer)
     local strLevelValue = string.format("%d", self.mActor.mLevel)
     local levelY = nameY - 42
     renderer:DrawText2d(nameX, levelY, strLevelLabel)
-    gNumberFont:AlignText("left", "top")
-    gNumberFont:DrawText2d(renderer, nameX + 12, levelY - 3, strLevelValue)
+    font:AlignText("left", "top")
+    font:DrawText2d(renderer, nameX + 12, levelY - 3, strLevelValue)
 
     -- XP
     renderer:AlignText("right", "top")
@@ -85,8 +87,8 @@ function ActorXPSummary:Render(renderer)
     local right = self.mLayout:Right(self.mId) - 18
     local rightLabel = right - 96
     renderer:DrawText2d(rightLabel, nameY, strXPLabel)
-    gNumberFont:AlignText("right", "top")
-    gNumberFont:DrawText2d(renderer, right, nameY - 3, strXPValue)
+    font:AlignText("right", "top")
+    font:DrawText2d(renderer, right, nameY - 3, strXPValue)
 
     local barX = right - self.mXPBar.mHalfWidth
 
@@ -99,7 +101,7 @@ function ActorXPSummary:Render(renderer)
     local strNextLevelValue = string.format("%d", self.mActor.mNextLevelXP)
 
     renderer:DrawText2d(rightLabel, levelY, strNextLevelLabel)
-    gNumberFont:DrawText2d(renderer, right, levelY - 3, strNextLevelValue)
+    font:DrawText2d(renderer, right, levelY - 3, strNextLevelValue)
 
     local popup = self.mPopUpList[1]
     if popup == nil then

@@ -181,10 +181,12 @@ function FrontMenuState:CreatePartySummaries()
 end
 
 function FrontMenuState:Render(renderer)
+
+    local font = gGame.Font.default
+
     for k, v in ipairs(self.mPanels) do
         v:Render(renderer)
     end
-
 
     renderer:ScaleText(self.mParent.mTitleSize, self. mParent.mTitleSize)
     renderer:AlignText("left", "center")
@@ -207,9 +209,9 @@ function FrontMenuState:Render(renderer)
     renderer:DrawText2d(goldX, goldY - 25, "TIME:")
     renderer:AlignText("left", "top")
 
-    gNumberFont:AlignText("left", "top")
-    gNumberFont:DrawText2d(renderer, math.floor(goldX + 10), math.floor(goldY), gWorld:GoldAsString())
-    gNumberFont:DrawText2d(renderer, goldX + 10, goldY - 25, gWorld:TimeAsString())
+    font:AlignText("left", "top")
+    font:DrawText2d(renderer, math.floor(goldX + 10), math.floor(goldY), gWorld:GoldAsString())
+    font:DrawText2d(renderer, goldX + 10, goldY - 25, gWorld:TimeAsString())
 
     local partyX = self.mLayout:Left("party") - 16
     local partyY = self.mLayout:Top("party") - 45

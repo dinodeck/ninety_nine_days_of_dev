@@ -220,25 +220,27 @@ function EquipMenuState:Render(renderer)
 end
 
 function EquipMenuState:DrawStat(renderer, x, y, label, stat, diff)
+
+    local font = gGame.Font.default
     renderer:AlignText("right", "top")
     renderer:DrawText2d(x, y, label)
     renderer:AlignText("left", "top")
-    gNumberFont:AlignText("left", "top")
+    font:AlignText("left", "top")
 
     local current = self.mActor.mStats:Get(stat)
     local changed = current + diff
 
-    gNumberFont:DrawText2d(renderer,
-                           x + 15, y - 2, string.format("%d", current))
+    font:DrawText2d(renderer,
+                    x + 15, y - 2, string.format("%d", current))
 
     if diff > 0 then
-        gNumberFont:DrawText2d(renderer,
+        font:DrawText2d(renderer,
                                x + 60, y - 2, string.format("%d", changed),
                             Vector.Create(0,1,0,1))
         self.mBetterSprite:SetPosition(x + 80, y - 6)
         renderer:DrawSprite(self.mBetterSprite)
     elseif diff < 0 then
-        gNumberFont:DrawText2d(renderer,
+        font:DrawText2d(renderer,
                                x + 60, y - 2, string.format("%d", changed),
                             Vector.Create(1,0,0,1))
         self.mWorseSprite:SetPosition(x + 80, y - 6)

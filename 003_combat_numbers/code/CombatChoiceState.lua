@@ -144,6 +144,7 @@ end
 function CombatChoiceState:OnSpecialAction()
 
     local actor = self.mActor
+    local font = gGame.Font.default
 
     --  Create the selection box
     local x = self.mTextbox.mSize.left - 64
@@ -170,9 +171,8 @@ function CombatChoiceState:OnSpecialAction()
                     color = Vector.Create(0.7, 0.7, 0.7, 1)
                 end
 
-
-                gNumberFont:AlignText("right", "center")
-                gNumberFont:DrawText2d(renderer, x + 96, y, cost, color)
+                font:AlignText("right", "center")
+                font:DrawText2d(renderer, x + 96, y, cost, color)
             end
         end
         renderer:AlignText("left", "center")
@@ -223,6 +223,7 @@ end
 function CombatChoiceState:OnMagicAction()
 
     local actor = self.mActor
+    local font = gGame.Font.default
 
     --  Create the selection box
     local x = self.mTextbox.mSize.left - 64
@@ -248,8 +249,8 @@ function CombatChoiceState:OnMagicAction()
                 color = Vector.Create(0.7, 0.7, 0.7, 1)
             end
 
-            gNumberFont:AlignText("right", "center")
-            gNumberFont:DrawText2d(renderer, x + 96, y, cost, color)
+            font:AlignText("right", "center")
+            font:DrawText2d(renderer, x + 96, y, cost, color)
         end
         renderer:AlignText("left", "center")
         renderer:DrawText2d(x, y, text, color)

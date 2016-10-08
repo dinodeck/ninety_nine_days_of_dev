@@ -1,8 +1,16 @@
 LoadLibrary('Asset')
 Asset.Run('Dependencies.lua')
 
+gGame =
+{
+    Font =
+    {
+        default = BitmapText:Create(NumberFontDef),
+        damage = BitmapText:Create(DamageFontDef)
+    }
+}
+
 gRenderer = Renderer.Create()
-gNumberFont = BitmapText:Create(NumberFontDef)
 
 
 function SetupNewGame()

@@ -258,6 +258,7 @@ end
 
 function CombatState:DrawHP(renderer, x, y, hp, max)
 
+    local font = gGame.Font.default
     local hpColor = Vector.Create(1,1,1,1)
 
     local percent = hp / max
@@ -268,18 +269,18 @@ function CombatState:DrawHP(renderer, x, y, hp, max)
         hpColor = Vector.Create(1,1,0,1)
     end
 
-    gNumberFont:AlignText("left", "center")
+    font:AlignText("left", "center")
 
     local xPos = x
     local hp = string.format('%d', hp)
-    gNumberFont:DrawText2d(renderer, xPos, y, hp, hpColor)
+    font:DrawText2d(renderer, xPos, y, hp, hpColor)
     -- renderer:DrawText2d(xPos, y, hp, hpColor)
-    local size = gNumberFont:MeasureText(hp)
+    local size = font:MeasureText(hp)
     xPos = xPos + size:X() + 3
-    gNumberFont:DrawText2d(renderer, xPos, y, '/')
-    size = gNumberFont:MeasureText('/')
+    font:DrawText2d(renderer, xPos, y, '/')
+    size = font:MeasureText('/')
     xPos = xPos + size:X() - 1
-    gNumberFont:DrawText2d(renderer, xPos, y, max)
+    font:DrawText2d(renderer, xPos, y, max)
 
 end
 

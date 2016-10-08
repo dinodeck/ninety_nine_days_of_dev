@@ -183,6 +183,8 @@ function ShopState:RenderStock(menu, renderer, x, y, item)
         return
     end
 
+    local font = gGame.Font.default
+
     local color = nil
     if self.mWorld.mGold < item.price then
         color = Vector.Create(0.6, 0.6, 0.6, 1)
@@ -192,9 +194,9 @@ function ShopState:RenderStock(menu, renderer, x, y, item)
 
     renderer:AlignTextX("right")
     renderer:DrawText2d(self.mPriceX, y, ": ")
-    gNumberFont:AlignTextX("right")
+    font:AlignTextX("right")
     local priceStr = string.format("%d", item.price)
-    gNumberFont:DrawText2d(renderer, self.mPriceX + 6, y, priceStr, color)
+    font:DrawText2d(renderer, self.mPriceX + 6, y, priceStr, color)
 end
 
 function ShopState:RenderInventory(menu, renderer, x, y, item)
