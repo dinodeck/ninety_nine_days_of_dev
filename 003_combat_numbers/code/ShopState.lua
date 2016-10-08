@@ -205,14 +205,16 @@ function ShopState:RenderInventory(menu, renderer, x, y, item)
         return
     end
 
+    local font = gGame.Font.default
+
     self.mWorld:DrawItem(menu, renderer, x, y, item)
 
     local def = ItemDB[item.id]
     renderer:AlignTextX("left")
     renderer:DrawText2d(self.mPriceX - 18, y, ":", color)
     local priceStr = string.format("%d", def.price)
-    gNumberFont:AlignTextX("right")
-    gNumberFont:DrawText2d(renderer, self.mPriceX + 16, y, priceStr)
+    font:AlignTextX("right")
+    font:DrawText2d(renderer, self.mPriceX + 16, y, priceStr)
 end
 
 function ShopState:BackToChooseState()
@@ -381,6 +383,9 @@ function ShopState:DrawCharacters(renderer, itemDef)
 end
 
 function ShopState:Render(renderer)
+
+    local font = gGame.Font.default
+
     for k, v in ipairs(self.mPanels)do
         v:Render(renderer)
     end
@@ -441,10 +446,10 @@ function ShopState:Render(renderer)
     renderer:DrawText2d(statusX, statusY - 32, invText)
     renderer:DrawText2d(statusX, statusY - 50, equipText)
 
-    gNumberFont:AlignText("left", "center")
-    gNumberFont:DrawText2d(renderer, valueX, statusY, gpValue)
-    gNumberFont:DrawText2d(renderer, valueX, statusY - (32-4), invValue)
-    gNumberFont:DrawText2d(renderer, valueX, statusY - (50-4), equipValue)
+    font:AlignText("left", "center")
+    font:DrawText2d(renderer, valueX, statusY, gpValue)
+    font:DrawText2d(renderer, valueX, statusY - (32-4), invValue)
+    font:DrawText2d(renderer, valueX, statusY - (50-4), equipValue)
 
     renderer:AlignText("left", "center")
     renderer:ScaleText(1,1)

@@ -63,45 +63,56 @@ SaveScheme =
                 }
             }
         },
-        ['gStack'] =
+        ['gGame'] =
         {
-            meta = 'function',
-            meta_extract_function = function(data, scheme)
-                -- Get ExploreState
-                local exploreState = nil
-                for k, v in ipairs(data.mStates) do
-                    if v.__index == ExploreState then
-                        exploreState = v
-                        break
-                    end
-                end
-                -- Extract the start pos and
-                return
+            meta = 'marked',
+            fields =
+            {
+                ['Stack'] =
                 {
-                    mapId = exploreState.mMapDef.id,
-                    x = exploreState.mHero.mEntity.mTileX,
-                    y = exploreState.mHero.mEntity.mTileY,
-                    layer = exploreState.mHero.mEntity.mLayer
+                    meta = 'function',
+                    meta_extract_function = function(data, scheme)
+                        -- Get ExploreState
+                        local exploreState = nil
+                        for k, v in ipairs(data.mStates) do
+                            if v.__index == ExploreState then
+                                exploreState = v
+                                break
+                            end
+                        end
+                        -- Extract the start pos and
+                        return
+                        {
+                            mapId = exploreState.mMapDef.id,
+                            x = exploreState.mHero.mEntity.mTileX,
+                            y = exploreState.mHero.mEntity.mTileY,
+                            layer = exploreState.mHero.mEntity.mLayer
+                        }
+                    end,
                 }
-            end,
+            }
         }
     },
     meta_after_patch = function(data, save, scheme, dataParent, id)
 
         -- Clear the stack
-        gStack = StateStack:Create()
+        gGame.Stack = StateStack:Create()
 
-        local stackData = save['gStack']
+        for k, v in pairs(save) do
+            print(k,v)
+        end
+
+        local stackData = save['gGame']['Stack']
         local map = MapDB[stackData.mapId]
         map = map(gWorld.mGameState)
         local startPos = Vector.Create(stackData.x,
                                        stackData.y,
                                        stackData.layer)
 
-        local explore = ExploreState:Create(gStack,
+        local explore = ExploreState:Create(gGame.Stack,
                                             map,
                                             startPos)
-        gStack:Push(explore)
+        gGame.Stack:Push(explore)
 
     end
 }

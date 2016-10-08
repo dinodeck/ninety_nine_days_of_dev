@@ -85,7 +85,7 @@ function GameOverState:OnSelect(index, data)
         Save:Load()
     elseif index == 2 then
         local storyboard = SetupNewGame()
-        gStack:Push(storyboard)
+        gGame.Stack:Push(storyboard)
         storyboard:Update(0)
     end
 end

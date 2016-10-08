@@ -105,8 +105,8 @@ function CreateCaveMap(state)
         }
 
         -- Then storyboard
-        local storyboard = Storyboard:Create(gStack, bossTalk, true)
-        gStack:Push(storyboard)
+        local storyboard = Storyboard:Create(gGame.Stack, bossTalk, true)
+        gGame.Stack:Push(storyboard)
 
     end
 
@@ -167,7 +167,7 @@ function CreateCaveMap(state)
       map:RemoveEntity(entity)
       map:RemoveTrigger(x, y, layer)
       gWorld:AddKey(keystoneId)
-      gStack:PushFit(gRenderer, 0, 0, "Keystone received.")
+      gGame.Stack:PushFit(gRenderer, 0, 0, "Keystone received.")
   end
 
   local DoorPlateInteract = function(map, trigger, entity, x, y, layer)
@@ -208,10 +208,10 @@ function CreateCaveMap(state)
               SOP.HandOff("handin")
           }
 
-          gStack:Push(Storyboard:Create(gStack, storyboard, true))
+          gGame.Stack:Push(Storyboard:Create(gGame.Stack, storyboard, true))
       else
           local sayX, sayY = map:TileToScreen(x, y - 1)
-          gStack:PushFit(gRenderer, sayX, sayY,
+          gGame.Stack:PushFit(gRenderer, sayX, sayY,
                          "Looks like something goes here...")
       end
   end

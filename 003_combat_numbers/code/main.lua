@@ -7,14 +7,15 @@ gGame =
     {
         default = BitmapText:Create(NumberFontDef),
         damage = BitmapText:Create(DamageFontDef)
-    }
+    },
+    Stack = {}
 }
 
 gRenderer = Renderer.Create()
 
 
 function SetupNewGame()
-    gStack = StateStack:Create()
+    gGame.Stack = StateStack:Create()
     gWorld = World:Create()
 
     local startPos = Vector.Create(5, 9, 1)
@@ -93,23 +94,23 @@ function SetupNewGame()
 
     do
         local map = MapDB['town'](gWorld.mGameState)
-        gStack:Push(ExploreState:Create(gStack, map, startPos))
+        gGame.Stack:Push(ExploreState:Create(gGame.Stack, map, startPos))
     end
 
-    return Storyboard:Create(gStack, intro, true)
+    return Storyboard:Create(gGame.Stack, intro, true)
 end
 
 
 
 local storyboard = SetupNewGame()
 
-gStack:Push(TitleScreenState:Create(gStack, storyboard))
+gGame.Stack:Push(TitleScreenState:Create(gGame.Stack, storyboard))
 math.randomseed( os.time() )
 
 function update()
     local dt = GetDeltaTime()
-    gStack:Update(dt)
-    gStack:Render(gRenderer)
+    gGame.Stack:Update(dt)
+    gGame.Stack:Render(gRenderer)
     gWorld:Update(dt)
 
     if Keyboard.JustPressed(KEY_H) then
@@ -121,7 +122,7 @@ function update()
         print("teleport!")
         gWorld:RemoveKey(14)
 
-        local exploreState = gStack:Top()
+        local exploreState = gGame.Stack:Top()
         Actions.Teleport(exploreState.mMap, 56, 41, 1)(nil, exploreState.mHero.mEntity)
     end
 

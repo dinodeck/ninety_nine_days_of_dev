@@ -112,7 +112,7 @@ function FrontMenuState:OnMenuClick(index, item)
     if item.id == "load" then
         if Save:DoesExist() then
             Save:Load()
-            gStack:PushFit(gRenderer, 0, 0, "Loaded!")
+            gGame.Stack:PushFit(gRenderer, 0, 0, "Loaded!")
         end
         return
     end

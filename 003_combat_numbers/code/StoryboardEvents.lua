@@ -488,7 +488,7 @@ function SOP.HandOff(mapId)
         local exploreState = storyboard.mStates[mapId]
         storyboard.mStack:Pop() -- remove storyboard from the top of the stack
         storyboard.mStack:Push(exploreState)
-        exploreState.mStack = gStack
+        exploreState.mStack = gGame.Stack
         return EmptyEvent
     end
 end

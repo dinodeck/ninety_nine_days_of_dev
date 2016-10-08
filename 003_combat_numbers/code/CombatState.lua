@@ -285,6 +285,8 @@ function CombatState:DrawHP(renderer, x, y, hp, max)
 end
 
 function CombatState:RenderPartyStats(renderer, x, y, item)
+    local font = gGame.Font.default
+
     local stats = item.mStats
     local barOffset = 130
 
@@ -302,8 +304,8 @@ function CombatState:RenderPartyStats(renderer, x, y, item)
 
     local mpStr = string.format("%d", stats:Get('mp_now'))
     -- renderer:DrawText2d(x, y, mpStr)
-    gNumberFont:AlignText("left", "center")
-    gNumberFont:DrawText2d(renderer, x, y, mpStr)
+    font:AlignText("left", "center")
+    font:DrawText2d(renderer, x, y, mpStr)
     bars.mMP:SetPosition(x + barOffset * 0.7, y)
     bars.mMP:SetValue(stats:Get('mp_now'))
     bars.mMP:Render(renderer)

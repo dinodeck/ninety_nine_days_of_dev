@@ -58,7 +58,7 @@ Actions =
                     return
                 end
                 Save:Save()
-                gStack:PushFit(gRenderer, 0, 0, "Saved!")
+                gGame.Stack:PushFit(gRenderer, 0, 0, "Saved!")
             end
 
             local trigger = Trigger:Create(
@@ -66,7 +66,7 @@ Actions =
                 OnUse = function()
                     gWorld.mParty:Rest()
                     local askMsg = "Save progress?"
-                    gStack:PushFit(gRenderer, 0, 0, askMsg, false,
+                    gGame.Stack:PushFit(gRenderer, 0, 0, askMsg, false,
                     {
                         choices =
                         {
@@ -112,7 +112,7 @@ Actions =
             local  OnOpenChest = function()
 
                 if loot == nil or #loot == 0 then
-                    gStack:PushFit(gRenderer, 0, 0, "The chest is empty!", 300)
+                    gGame.Stack:PushFit(gRenderer, 0, 0, "The chest is empty!", 300)
                 else
 
                     gWorld:AddLoot(loot)
@@ -128,7 +128,7 @@ Actions =
                             message = message .. string.format(" x%d", count)
                         end
 
-                        gStack:PushFit(gRenderer, 0, 0, message, 300)
+                        gGame.Stack:PushFit(gRenderer, 0, 0, message, 300)
                     end
                 end
 
@@ -154,7 +154,7 @@ Actions =
 
     OpenShop = function(map, def)
         return function(trigger, entity, tX, tY, tLayer)
-            gStack:Push(ShopState:Create(gStack, gWorld, def))
+            gGame.Stack:Push(ShopState:Create(gGame.Stack, gWorld, def))
         end
     end,
 
@@ -179,8 +179,8 @@ Actions =
 
             gWorld.mParty:Rest()
 
-            --gStack:PushFit(gRenderer, 0, 0, lackGPMsg)
-            gStack:PushFit(gRenderer, 0, 0, resultMsg)
+            --gGame.Stack:PushFit(gRenderer, 0, 0, lackGPMsg)
+            gGame.Stack:PushFit(gRenderer, 0, 0, resultMsg)
         end
 
         return function(trigger, entity, tX, tY, tLayer)
@@ -188,7 +188,7 @@ Actions =
             local gp = gWorld.mGold
 
             if gp >= cost then
-                gStack:PushFit(gRenderer, 0, 0, askMsg, false,
+                gGame.Stack:PushFit(gRenderer, 0, 0, askMsg, false,
                 {
                     choices =
                     {
@@ -197,7 +197,7 @@ Actions =
                     },
                 })
             else
-                gStack:PushFit(gRenderer, 0, 0, lackGPMsg)
+                gGame.Stack:PushFit(gRenderer, 0, 0, lackGPMsg)
             end
 
         end
@@ -207,7 +207,7 @@ Actions =
         return function(trigger, entity, tX, tY, tLayer)
             tY = tY - 4
             local x, y = map:TileToScreen(tX, tY)
-            gStack:PushFix(gRenderer, x, y, 9*32, 2.5*32, text)
+            gGame.Stack:PushFix(gRenderer, x, y, 9*32, 2.5*32, text)
         end
     end,
 
@@ -234,8 +234,8 @@ Actions =
 
         return function(trigger, entity, tX, tY, tLayer)
             gWorld:LockInput()
-            local storyboard = Storyboard:Create(gStack, storyboard, true)
-            gStack:Push(storyboard)
+            local storyboard = Storyboard:Create(gGame.Stack, storyboard, true)
+            gGame.Stack:Push(storyboard)
         end
     end,
 
@@ -254,7 +254,7 @@ Actions =
                 enemyList[k] = Actor:Create(enemyDef)
             end
 
-            local combatState = CombatState:Create(gStack,
+            local combatState = CombatState:Create(gGame.Stack,
             {
                 background = def.background,
                 actors =
@@ -274,12 +274,12 @@ Actions =
                 SOP.FadeInScreen("blackscreen", 0.5),
                 SOP.Function(
                     function()
-                        gStack:Push(combatState)
+                        gGame.Stack:Push(combatState)
                     end)
             }
 
-            local storyboard = Storyboard:Create(gStack, storyboard)
-            gStack:Push(storyboard)
+            local storyboard = Storyboard:Create(gGame.Stack, storyboard)
+            gGame.Stack:Push(storyboard)
         end
     end
 

@@ -42,7 +42,7 @@ function JumpingNumbers:Render(renderer)
     local n = tostring(self.mNumber)
 
 
-    local font = gNumberFont
+    local font = gGame.Font.default
     font:AlignText("center", "center")
     font:DrawText2d(renderer, x + 1, y - 1, n, Vector.Create(0,0,0, self.mColor:W()))
     font:DrawText2d(renderer, x, y, n, self.mColor)

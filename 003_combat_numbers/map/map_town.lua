@@ -67,13 +67,13 @@ function CreateTownMap(state)
             SOP.Wait(0.2),
             SOP.FadeInScreen(),
             SOP.Function(function()
-                            gStack = StateStack:Create()
-                            gStack:Push(GameOverState:Create(gStack, gWorld, true))
+                            gGame.Stack = StateStack:Create()
+                            gGame.Stack:Push(GameOverState:Create(gGame.Stack, gWorld, true))
                          end)
         }
 
-        local storyboard = Storyboard:Create(gStack, bossTalk, true)
-        gStack:Push(storyboard)
+        local storyboard = Storyboard:Create(gGame.Stack, bossTalk, true)
+        gGame.Stack:Push(storyboard)
     else
 
       -- Assume it's before player has the stone
