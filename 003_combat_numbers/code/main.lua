@@ -1,6 +1,8 @@
 LoadLibrary('Asset')
 Asset.Run('Dependencies.lua')
 
+gRenderer = Renderer.Create()
+
 gGame =
 {
     Font =
@@ -11,9 +13,6 @@ gGame =
     Stack = {},
     World = {}
 }
-
-gRenderer = Renderer.Create()
-
 
 function SetupNewGame()
     gGame.Stack = StateStack:Create()

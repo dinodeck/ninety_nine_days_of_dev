@@ -522,11 +522,13 @@ manifest =
         },
         ['goblin_field.png'] =
         {
-            path = "art/goblin_field.png"
+            path = "art/goblin_field.png",
+            scale = "pixelart",
         },
         ['goblin_forest.png'] =
         {
-            path = "art/goblin_forest.png"
+            path = "art/goblin_forest.png",
+            scale = "pixelart",
         },
         ['cave_tileset.png'] =
         {
@@ -534,11 +536,13 @@ manifest =
         },
         ['cave_drake.png'] =
         {
-            path = "art/cave_drake.png"
+            path = "art/cave_drake.png",
+            scale = "pixelart"
         },
         ['cave_shade.png'] =
         {
-            path = "art/cave_shade.png"
+            path = "art/cave_shade.png",
+            scale = "pixelart"
         },
         ['cave_bat.png'] =
         {

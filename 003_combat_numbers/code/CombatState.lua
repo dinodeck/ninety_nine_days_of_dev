@@ -337,8 +337,8 @@ function CombatState:CreateCombatCharacters(side)
 
         -- Combat positions are 0 - 1
         -- Need scaling to the screen size.
-        local x = pos:X() * System.ScreenWidth()
-        local y = pos:Y() * System.ScreenHeight()
+        local x = math.floor(pos:X() * System.ScreenWidth())
+        local y = math.floor(pos:Y() * System.ScreenHeight())
         char.mEntity.mSprite:SetPosition(x, y)
         char.mEntity.mX = x
         char.mEntity.mY = y
