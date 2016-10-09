@@ -385,6 +385,14 @@ manifest =
         {
             path = "code/font/DamageFontDef.lua"
         },
+        ['DamageSpriteDef.lua'] =
+        {
+            path = "code/font/DamageSpriteDef.lua"
+        },
+        ['CombatSpriteFx.lua'] =
+        {
+            path = "code/fx/CombatSpriteFx.lua"
+        },
     },
     textures =
     {

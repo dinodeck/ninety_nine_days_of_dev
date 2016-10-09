@@ -111,5 +111,7 @@ Apply({
         "BitmapText.lua",
         "NumberFontDef.lua",
         "DamageFontDef.lua",
+        "DamageSpriteDef.lua",
+        "CombatSpriteFx.lua",
     },
     function(v) Asset.Run(v) end)

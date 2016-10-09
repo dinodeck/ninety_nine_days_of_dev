@@ -8,7 +8,8 @@ gGame =
     Font =
     {
         default = BitmapText:Create(NumberFontDef),
-        damage = BitmapText:Create(DamageFontDef)
+        damage = BitmapText:Create(DamageFontDef),
+        damageSprite = CreateSpriteSet(DamageSpriteDef)
     },
     Stack = {},
     World = {}
@@ -106,6 +107,7 @@ local storyboard = SetupNewGame()
 
 gGame.Stack:Push(TitleScreenState:Create(gGame.Stack, storyboard))
 math.randomseed( os.time() )
+
 
 function update()
     local dt = GetDeltaTime()

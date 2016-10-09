@@ -59,3 +59,28 @@ end
 function Clamp(value, min, max)
     return math.max(min, math.min(value, max))
 end
+
+function PixelCoordsToUVs(tex, def)
+    local texWidth = tex:GetWidth()
+    local texHeight = tex:GetHeight()
+
+    local x = def.x / texWidth
+    local y = def.y / texHeight
+    local width = def.width / texWidth
+    local height = def.height / texHeight
+
+    return {x, y, x + width, y + height}
+
+end
+
+function CreateSpriteSet(def)
+    local texture = Texture.Find(def.texture)
+    local spriteSet = {}
+    for k, v in pairs(def.sprites) do
+        local sprite = Sprite.Create()
+        sprite:SetTexture(texture)
+        sprite:SetUVs(unpack(PixelCoordsToUVs(texture, v)))
+        spriteSet[k] = sprite
+    end
+    return spriteSet
+end

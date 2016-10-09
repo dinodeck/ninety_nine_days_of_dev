@@ -7,7 +7,6 @@ function JumpingNumbers:Create(x, y, number, color)
         mY = y or 0,
         mGravity = 700, -- pixels per second
         mFadeDistance = 33, -- pixels
-        mScale = 1.3,
         mNumber = number or 0, -- to display
         mColor = color or Vector.Create(1,1,1,1),
         mPriority = 1,
@@ -42,10 +41,9 @@ function JumpingNumbers:Render(renderer)
     local n = tostring(self.mNumber)
 
 
-    local font = gGame.Font.default
+    local font = gGame.Font.damage
     font:AlignText("center", "center")
     font:DrawText2d(renderer, x + 1, y - 1, n, Vector.Create(0,0,0, self.mColor:W()))
     font:DrawText2d(renderer, x, y, n, self.mColor)
-
 
 end

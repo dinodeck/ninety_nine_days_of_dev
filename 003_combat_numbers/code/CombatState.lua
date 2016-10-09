@@ -718,8 +718,18 @@ function CombatState:AddTextEffect(actor, text)
     self:AddEffect(effect)
 end
 
+function CombatState:AddSpriteEffect(actor, sprite)
+    local character = self.mActorCharMap[actor]
+    local entity = character.mEntity
+    local x = entity.mX
+    local y = entity.mY
+    local effect = CombatSpriteFx:Create(x, y, sprite)
+    self:AddEffect(effect)
+end
+
 function CombatState:ApplyMiss(target)
-    self:AddTextEffect(target, "MISS")
+    self:AddSpriteEffect(target,
+        gGame.Font.damageSprite['miss'])
 end
 
 function CombatState:ApplyDodge(target)
@@ -732,7 +742,8 @@ function CombatState:ApplyDodge(target)
         controller:Change("cs_hurt", state)
     end
 
-    self:AddTextEffect(target, "DODGE")
+    self:AddSpriteEffect(target,
+        gGame.Font.damageSprite['dodge'])
 end
 
 function CombatState:ApplyDamage(target, damage, isCrit)
