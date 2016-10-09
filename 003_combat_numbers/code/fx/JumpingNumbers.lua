@@ -10,7 +10,17 @@ function JumpingNumbers:Create(x, y, number, color)
         mNumber = number or 0, -- to display
         mColor = color or Vector.Create(1,1,1,1),
         mPriority = 1,
+        mHoldTime = 0.1,
+        mHoldCount = 0,
+
+        State =
+        {
+            rise = "rise",
+            hold = "hold",
+            fall = "fall"
+        }
     }
+    this.mState = this.State.rise
     this.mCurrentY = this.mY
     this.mVelocityY = 224,
 
@@ -25,8 +35,25 @@ end
 
 function JumpingNumbers:Update(dt)
 
+    if self.mState == self.State.hold then
+
+        if self.mHoldCount >= self.mHoldTime then
+            self.mState = self.State.fall
+        end
+
+        self.mHoldCount = self.mHoldCount + dt
+        return
+    end
+
+
     self.mCurrentY = self.mCurrentY + (self.mVelocityY * dt)
     self.mVelocityY = self.mVelocityY - (self.mGravity * dt)
+
+    if self.mState == self.State.rise and self.mVelocityY <= 0 then
+        self.mHoldCount = 0
+        self.mState = self.State.hold
+        return
+    end
 
     if self.mCurrentY <= self.mY then
         local fade01 = math.min(1, (self.mY - self.mCurrentY) / self.mFadeDistance)
