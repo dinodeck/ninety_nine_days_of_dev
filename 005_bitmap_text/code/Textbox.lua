@@ -20,7 +20,7 @@ function Textbox:Create(params)
         mPanel = Panel:Create(params.panelArgs),
         mSize = params.size,
         mBounds = params.textbounds,
-        mAppearTween = Tween:Create(0, 1, 0.4, Tween.EaseOutCirc),
+        mAppearTween = Tween:Create(0, 1, 0.3, Tween.Linear),
         mWrap = params.wrap or -1,
         mChildren = params.children or {},
         mSelectionMenu = params.selectionMenu,
@@ -91,7 +91,7 @@ function Textbox:OnClick()
            and self.mAppearTween:Value() == 1) then
             return
         end
-        self.mAppearTween = Tween:Create(1, 0, 0.2, Tween.EaseInCirc)
+        self.mAppearTween = Tween:Create(1, 0, 0.2, Tween.Linear)
     else
         self.mChunkIndex = self.mChunkIndex + 1
     end
@@ -124,6 +124,12 @@ function Textbox:Render(renderer)
     local top = self.mY + (self.mHeight/2 * scale)
     local textTop = top + (self.mBounds.top * scale)
     local bottom = self.mY - (self.mHeight/2 * scale)
+
+    -- Bitmap fonts can't scale
+    -- So until box is full size, don't draw any text.
+    if self.mAppearTween:Value() ~= 1 then
+        return
+    end
 
     font:DrawText2d(
         renderer,
