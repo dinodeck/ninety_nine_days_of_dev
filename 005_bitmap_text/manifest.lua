@@ -289,10 +289,6 @@ manifest =
         {
             path = "code/fx/JumpingNumbers.lua"
         },
-        ['CombatTextFx.lua'] =
-        {
-            path = "code/fx/CombatTextFx.lua"
-        },
         ['AnimEntityFx.lua'] =
         {
             path = "code/fx/AnimEntityFx.lua"
@@ -376,10 +372,6 @@ manifest =
         ['BitmapText.lua'] =
         {
             path = "code/BitmapText.lua"
-        },
-        ['NumberFontDef.lua'] =
-        {
-            path = "code/font/NumberFontDef.lua"
         },
         ['DamageFontDef.lua'] =
         {
@@ -604,11 +596,6 @@ manifest =
         ['demon.png'] =
         {
             path = "art/demon.png"
-        },
-        ['number_font.png'] =
-        {
-            path = "art/font/number_font.png",
-            scale = "pixelart"
         },
         ['stats_font.png'] =
         {

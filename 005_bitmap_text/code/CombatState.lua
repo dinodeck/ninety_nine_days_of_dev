@@ -708,15 +708,6 @@ function CombatState:HandleEnemyDeath()
     end
 end
 
-function CombatState:AddTextEffect(actor, text)
-    local character = self.mActorCharMap[actor]
-    local entity = character.mEntity
-    local x = entity.mX
-    local y = entity.mY
-    local effect = CombatTextFx:Create(x, y, text)
-    self:AddEffect(effect)
-end
-
 function CombatState:AddSpriteEffect(actor, sprite)
     local character = self.mActorCharMap[actor]
     local entity = character.mEntity
@@ -798,7 +789,8 @@ function CombatState:ApplyCounter(target, owner)
     local tp = -1 -- immediate
     self.mEventQueue:Add(attack, tp)
 
-    self:AddTextEffect(target, "COUNTER")
+    self:AddSpriteEffect(target,
+        gGame.Font.damageSprite['counter'])
 end
 
 function CombatState:HandleDeath()
