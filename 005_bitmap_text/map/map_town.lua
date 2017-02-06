@@ -77,7 +77,7 @@ function CreateTownMap(state)
     else
 
       -- Assume it's before player has the stone
-      local message = "Go to the mine and the get the gem. Then we can talk."
+      local message = "Go to the mine and get the gem. Then we can talk."
       local action = Actions.ShortText(map, message)
       action(trigger, entity, x, y, layer)
     end

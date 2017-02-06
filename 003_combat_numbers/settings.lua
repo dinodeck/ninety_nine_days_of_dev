@@ -1,5 +1,5 @@
 
-name = "Polish 002 - Bitmap Numbers"
+name = "Polish 003 - Combat Numbers"
 width = 1280/2
 height = 720/2
 manifest = "manifest.lua"

@@ -2,6 +2,7 @@
 name = "Polish 005 - Bitmap Text"
 width = 1280/2
 height = 720/2
+
 manifest = "manifest.lua"
 main_script = "main.lua"
 on_update = "update()"
