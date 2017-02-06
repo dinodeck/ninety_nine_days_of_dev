@@ -10,8 +10,10 @@ local function AddTextNumberEffect(state, entity, num, color)
     local x = entity.mX
     local y = entity.mY
 
-    local text = string.format("+%d", num)
-    local textEffect = CombatTextFx:Create(x, y, text, color)
+    --local text = string.format("+%d", num)
+
+    local textEffect = JumpingNumbers:Create(x, y, num, color)
+    --CombatTextFx:Create(x, y, text, color)
     state:AddEffect(textEffect)
 end
 
