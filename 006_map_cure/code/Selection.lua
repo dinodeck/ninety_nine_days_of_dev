@@ -135,6 +135,11 @@ function Selection:CanScrollDown()
     return self.mDisplayStart <= (self.mMaxRows - self.mDisplayRows)
 end
 
+function Selection:JumpToFirstItem()
+    self.mFocusY = 1
+    self.mFocusX = 1
+    self.mDisplayStart = 1
+end
 
 function Selection:MoveUp()
     self.mFocusY = math.max(self.mFocusY - 1, 1)

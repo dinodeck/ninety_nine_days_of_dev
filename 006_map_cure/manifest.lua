@@ -53,6 +53,10 @@ manifest =
         {
             path = "code/ItemMenuState.lua"
         },
+        ['MagicMenuState.lua'] =
+        {
+            path = "code/MagicMenuState.lua"
+        },
         ['ItemDB.lua'] =
         {
             path = "code/ItemDB.lua"

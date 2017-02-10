@@ -22,8 +22,7 @@ function InGameMenuState:Create(stack, mapDef)
         end,
         ["magic"] =
         function()
-            --return MagicMenuState:Create(this)
-            return this.mStateMachine.mEmpty
+            return MagicMenuState:Create(this)
         end,
         ["equip"] =
         function()

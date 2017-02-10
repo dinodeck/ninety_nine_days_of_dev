@@ -59,6 +59,7 @@ Apply({
         "World.lua",
         "ItemDB.lua",
         "ItemMenuState.lua",
+        "MagicMenuState.lua",
         "Icons.lua",
         "Storyboard.lua",
         "StoryboardEvents.lua",

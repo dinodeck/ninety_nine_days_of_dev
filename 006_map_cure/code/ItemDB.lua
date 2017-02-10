@@ -124,7 +124,7 @@ ItemDB =
                 type = "One"
             },
             hint = "Choose target to heal.",
-            can_cast_on_map = true
+            can_use_on_map = true
         },
         price = 50,
     },
@@ -143,7 +143,7 @@ ItemDB =
                 type = "One"
             },
             hint = "Choose target to revive.",
-            can_cast_on_map = true
+            can_use_on_map = true
         },
         price = 100,
     },
@@ -162,7 +162,7 @@ ItemDB =
                 type = "One"
             },
             hint = "Choose target to restore mana.",
-            can_cast_on_map = true
+            can_use_on_map = true
         },
         price = 100,
     },

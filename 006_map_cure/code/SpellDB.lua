@@ -74,7 +74,7 @@ SpellDB =
         base_heal = 100, -- multiplied by level
         base_hit_chance = 1,
         time_points = 10,   -- what's the difference between this and cast time?
-        can_cast_map = true,
+        can_use_on_map = true,
         target =
         {
             selector = "MostHurtParty",
