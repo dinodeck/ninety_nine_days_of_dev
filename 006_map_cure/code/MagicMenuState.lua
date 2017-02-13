@@ -8,6 +8,7 @@ function MagicMenuState:Create(parent)
         mStack = parent.mStack,
         mStateMachine = parent.mStateMachine,
         mScrollbar = Scrollbar:Create(Texture.Find("scrollbar.png"), 184),
+        mSpellMenu = nil
     }
     setmetatable(this, self)
     return this
@@ -23,8 +24,7 @@ function MagicMenuState:Enter(character)
     layout:SplitHorz('screen', "top", "bottom", 0.12, 2)
     layout:SplitVert('top', "title", "category", 0.7, 2)
     layout:SplitHorz('bottom', "detail", "spells", 0.3, 2)
-    layout:SplitHorz('detail', "detail", "desc", 0.5, 2)
-    layout:SplitVert('detail', "char", "cost", 0.5, 2)
+    layout:SplitHorz('detail', "char", "desc", 0.5, 2)
 
     self.mPanels =
     {
@@ -33,29 +33,36 @@ function MagicMenuState:Enter(character)
         layout:CreatePanel("char"),
         layout:CreatePanel("desc"),
         layout:CreatePanel("spells"),
-        layout:CreatePanel("cost"),
     }
 
-    self.mSpellMenus = {}
-    PrintTable(character.mMagic)
-    for k, v in pairs({"Earth Magic"}) do
-        -- Create a menu for each spell
-        local menu = Selection:Create
-        {
-            data = character.mMagic,
-            OnSelection = function() end,
-            spacingX = 256,
-            displayRows = 6,
-            spacingY = 28,
-            columns = 2,
-            rows = 20,
-            RenderItem = function(...) self:RenderSpell(...) end
-        }
-        if k > 1 then
-            menu:HideCursor()
-        end
-        table.insert(self.mSpellMenus, menu)
-    end
+    self.mMPBar = ProgressBar:Create
+    {
+        value = self.mCharacter.mStats:Get("mp_now"),
+        maximum = self.mCharacter.mStats:Get("mp_max"),
+        background = Texture.Find("mpbackground.png"),
+        foreground = Texture.Find("mpforeground.png"),
+    }
+    self.mMPBarWidth = Texture.Find("mpbackground.png"):GetWidth()
+
+    self.mSpellMenu = Selection:Create
+    {
+        data = character.mMagic,
+        OnSelection = function() end,
+        spacingX = 256,
+        displayRows = 6,
+        spacingY = 28,
+        columns = 2,
+        rows = 20,
+        RenderItem = function(...) self:RenderSpell(...) end
+    }
+
+
+    local mpBarX = layout:Right("char")
+    mpBarX = mpBarX - (self.mMPBarWidth * 0.5)
+    mpBarX = mpBarX - 10
+    local mpBarY = layout:Bottom("char") + 12
+    self.mMPBar:SetPosition(mpBarX, mpBarY)
+    self.mMPBarRight = mpBarX - (self.mMPBarWidth * 0.5)
 
     self.mLayout = layout
 end
@@ -77,7 +84,7 @@ end
 
 function MagicMenuState:Update(dt)
 
-    local menu = self.mSpellMenus[1]
+    local menu = self.mSpellMenu
 
     menu:HandleInput()
 
@@ -92,7 +99,7 @@ function MagicMenuState:Update(dt)
 end
 
 function MagicMenuState:GetSelectedManaCost()
-    local spellMenu = self.mSpellMenus[1]
+    local menu = self.mSpellMenu
     local item = spellMenu:SelectedItem()
 
     if item then
@@ -104,8 +111,8 @@ function MagicMenuState:GetSelectedManaCost()
 end
 
 function MagicMenuState:GetSelectedDescription()
-    local spellMenu = self.mSpellMenus[1]
-    local item = spellMenu:SelectedItem()
+    local menu = self.mSpellMenu
+    local item = menu:SelectedItem()
 
     if item then
         local spell = SpellDB[item]
@@ -128,21 +135,30 @@ function MagicMenuState:Render(renderer)
     local titleY = self.mLayout:MidY("title")
     font:DrawText2d(renderer, titleX, titleY, "Magic")
 
-    local charX = self.mLayout:MidX("char")
-    local charY = self.mLayout:MidY("char")
-    font:DrawText2d(renderer, charX, charY, self.mCharacter.mName)
-
-    local manaCostLabel = "Mana Cost:"
-    font:AlignText("right", "center")
-    local charX =  self.mLayout:MidX("cost") - 5
-    local charY =  self.mLayout:MidY("char")
-    font:DrawText2d(renderer, charX, charY, manaCostLabel)
-
-    local manaCostStr = "%03d"
-    local manaCost = self:GetSelectedManaCost()
-    manaCostStr = string.format(manaCostStr, manaCost)
     font:AlignText("left", "center")
-    font:DrawText2d(renderer, charX + 10, charY, manaCostStr)
+    local charX = self.mLayout:Left("char")
+    local charY = self.mLayout:MidY("char")
+    font:DrawText2d(renderer, charX + 10, charY, self.mCharacter.mName)
+
+    -- MP BAR and STATS
+    local statFont = gGame.Font.stat
+    self.mMPBar:Render(renderer)
+
+    local mp = self.mCharacter.mStats:Get("mp_now")
+    local maxMP = self.mCharacter.mStats:Get("mp_max")
+    local counter = "%d/%d"
+    local mp = string.format(counter,
+                             mp,
+                             maxMP)
+    local mpX = self.mMPBarRight
+    local mpY = self.mLayout:MidY("char")
+
+    statFont:AlignText("left", "center")
+    statFont:DrawText2d(renderer, mpX, mpY, mp)
+    font:AlignText("right", "center")
+    mpX = mpX - 8
+    font:DrawText2d(renderer, mpX, mpY, "MP")
+    -- END OF MP BAR and STATS
 
     font:AlignText("left", "center")
     local descX = self.mLayout:Left("desc")
@@ -150,10 +166,9 @@ function MagicMenuState:Render(renderer)
     local desc = self:GetSelectedDescription()
     font:DrawText2d(renderer, descX + 10, descY, desc)
 
-    font:AlignText("left", "center")
     local spellX = self.mLayout:Left("spells") + 6
     local spellY = self.mLayout:Top("spells") - 30
-    local menu = self.mSpellMenus[1]
+    local menu = self.mSpellMenu
     menu:SetPosition(spellX, spellY)
     menu:Render(renderer)
 
