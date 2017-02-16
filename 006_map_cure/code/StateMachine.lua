@@ -68,3 +68,7 @@ end
 function StateMachine:Render(renderer)
 	self.mCurrent:Render(renderer)
 end
+
+function StateMachine:Current()
+	return self.mCurrent
+end

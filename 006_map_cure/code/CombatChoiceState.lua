@@ -269,7 +269,7 @@ function CombatChoiceState:OnMagicAction()
         local def = SpellDB[item]
         local mp = actor.mStats:Get("mp_now")
 
-        if mp < def.mp_cost then
+        if not actor:CanCast(def) then
             return
         end
 

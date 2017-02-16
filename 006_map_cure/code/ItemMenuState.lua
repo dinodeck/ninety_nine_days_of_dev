@@ -37,7 +37,8 @@ function ItemMenuState:Create(parent)
                 rows = 20,
                 RenderItem = function(self, renderer, x, y, item)
                     gGame.World:DrawItem(self, renderer, x, y, item)
-                end
+                end,
+                OnSelection = function(...) this:OnUseItem(...) end,
             },
             Selection:Create
             {
@@ -49,7 +50,7 @@ function ItemMenuState:Create(parent)
                 rows = 20,
                 RenderItem = function(self, renderer, x, y, item)
                     gGame.World:DrawKey(self, renderer, x, y, item)
-                end
+                end,
             },
         },
 
@@ -72,7 +73,33 @@ function ItemMenuState:Create(parent)
     return this
 end
 
-function ItemMenuState:Enter() end
+function ItemMenuState:CanUseItem(itemDef)
+    local useDef = itemDef.use or {}
+    return useDef.can_use_on_map == true
+end
+
+function ItemMenuState:OnUseItem(index, item)
+    local itemDef = ItemDB[item.id]
+    if not self:CanUseItem(itemDef) then
+        return
+    end
+
+    MenuTargetState.DoSelection
+    {
+        originId = "items",
+        stack = gGame.Stack,
+        stateMachine = self.mStateMachine,
+        targetType = MenuTargetType.One,
+        selector = MenuActorSelector["FirstMagicUser"],
+        OnCancel = function(target) print("Cancelled") end,
+        OnSelect = function(target) print("Selected", target) end
+    }
+end
+
+function ItemMenuState:Enter()
+    self:FocusOnCategoryMenu()
+end
+
 function ItemMenuState:Exit() end
 
 function ItemMenuState:OnCategorySelect(index, value)
@@ -98,8 +125,9 @@ function ItemMenuState:Render(renderer)
     font:AlignText("left", "center")
     local categoryX = self.mLayout:Left("category") + 5
     local categoryY = self.mLayout:MidY("category")
-    self.mCategoryMenu:Render(renderer)
     self.mCategoryMenu:SetPosition(categoryX, categoryY)
+    self.mCategoryMenu:Render(renderer)
+
 
     local descX = self.mLayout:Left("mid") + 10
     local descY = self.mLayout:MidY("mid")

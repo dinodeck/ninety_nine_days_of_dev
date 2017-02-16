@@ -65,7 +65,32 @@ function FrontMenuState:Create(parent)
     }
     this.mPartyMenu:HideCursor()
 
+    local partyX = this.mLayout:Left("party") - 16
+    local partyY = this.mLayout:Top("party") - 45
+    this.mPartyMenu:SetPosition(partyX, partyY)
+
     return this
+end
+
+function FrontMenuState:GetPartyAsSelectionTargets()
+    local targets = {}
+
+    local x = self.mPartyMenu.mX
+    local y = self.mPartyMenu.mY
+    local cursorWidth = self.mPartyMenu:CursorWidth()
+
+    for k, v in ipairs(self.mPartyMenu.mDataSource) do
+
+        local indexFrom0 = k - 1
+
+        table.insert(targets,
+                     {
+                        x = x + cursorWidth * 0.5,
+                        y = y - (indexFrom0 * self.mPartyMenu.mSpacingY),
+                        summary = v
+                    })
+    end
+    return targets
 end
 
 function FrontMenuState:RenderMenuItem(menu, renderer, x, y, item)
@@ -150,9 +175,6 @@ end
 
 function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
     -- Need to move state according to menu selection
-
-    --table: 0x13fb8328   nil
-    print(tostring(actorIndex), tostring(actorSummary))
 
     local indexToStateId =
     {
@@ -259,8 +281,9 @@ function FrontMenuState:Render(renderer)
     font:DrawText2d(renderer, math.floor(goldX + 10), math.floor(goldY), gGame.World:GoldAsString())
     font:DrawText2d(renderer, goldX + 10, goldY - 25, gGame.World:TimeAsString())
 
-    local partyX = self.mLayout:Left("party") - 16
-    local partyY = self.mLayout:Top("party") - 45
-    self.mPartyMenu:SetPosition(partyX, partyY)
     self.mPartyMenu:Render(renderer)
+end
+
+function FrontMenuState:HideMenuOptionsCursor()
+    self.mSelections:HideCursor()
 end

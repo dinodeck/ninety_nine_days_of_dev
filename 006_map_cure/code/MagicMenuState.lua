@@ -56,7 +56,6 @@ function MagicMenuState:Enter(character)
         RenderItem = function(...) self:RenderSpell(...) end
     }
 
-
     local mpBarX = layout:Right("char")
     mpBarX = mpBarX - (self.mMPBarWidth * 0.5)
     mpBarX = mpBarX - 10
@@ -70,6 +69,14 @@ end
 function MagicMenuState:Exit()
 end
 
+function MagicMenuState:CanCast(spellDef)
+    if not spellDef.can_use_on_map then
+       return false
+    end
+
+    return self.mCharacter:CanCast(spellDef)
+end
+
 function MagicMenuState:RenderSpell(menu, renderer, x, y, item)
 
     local font = gGame.Font.default
@@ -78,7 +85,16 @@ function MagicMenuState:RenderSpell(menu, renderer, x, y, item)
        font:DrawText2d(renderer, x, y, "--")
     else
         local spell = SpellDB[item]
-        font:DrawText2d(renderer, x, y, spell.name)
+        local horzSpace = 96
+        local color = Vector.Create(107/255, 107/255, 107/255, 1)
+
+        if self:CanCast(spell) then
+            color = Vector.Create(1, 1, 1, 1)
+        end
+
+        font:DrawText2d(renderer, x, y, spell.name, color)
+        font:DrawText2d(renderer, x + horzSpace, y,
+                        string.format("%d", spell.mp_cost), color)
     end
 end
 

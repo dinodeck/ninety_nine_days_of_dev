@@ -362,3 +362,7 @@ function Actor:CanUse(item)
 
     return false
 end
+
+function Actor:CanCast(spellDef)
+    return spellDef.mp_cost < self.mStats:Get("mp_now")
+end

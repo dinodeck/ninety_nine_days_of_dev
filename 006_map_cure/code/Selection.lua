@@ -89,6 +89,10 @@ function Selection:RenderItem(renderer, x, y, item)
     end
 end
 
+function Selection:CursorWidth()
+    return self.mCursorWidth * self.mScale
+end
+
 function Selection:Render(renderer)
 
     local displayStart = self.mDisplayStart
@@ -97,7 +101,7 @@ function Selection:Render(renderer)
     local x = self.mX
     local y = self.mY
 
-    local cursorWidth = self.mCursorWidth * self.mScale
+    local cursorWidth = self:CursorWidth()
     local cursorHalfWidth = cursorWidth / 2
     local spacingX = (self.mSpacingX * self.mScale)
     local rowHeight = (self.mSpacingY * self.mScale)
@@ -136,8 +140,8 @@ function Selection:CanScrollDown()
 end
 
 function Selection:JumpToFirstItem()
-    self.mFocusY = 1
     self.mFocusX = 1
+    self.mFocusY = 1
     self.mDisplayStart = 1
 end
 

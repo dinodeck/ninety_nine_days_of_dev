@@ -397,6 +397,19 @@ manifest =
         {
             path = "code/font/DefaultFontDef.lua"
         },
+        ['CombatSelector.lua'] =
+        {
+            path = "code/CombatSelector.lua"
+        },
+        ['MenuActorSelector.lua'] =
+        {
+            path = "code/MenuActorSelector.lua"
+        },
+        ['MenuTargetState.lua'] =
+        {
+            path = "code/MenuTargetState.lua"
+        },
+
     },
     textures =
     {
