@@ -19,12 +19,13 @@ function FrontMenuState:Create(parent)
 
         mSelections = Selection:Create
         {
-            spacingY = 32,
+            spacingY = 28,
             data =
             {
                 { id = "items", text = "Items" },
                 { id = "status", text = "Status" },
                 { id = "equipment", text = "Equipment" },
+                { id = "magic", text = "Magic"},
                 { id = "save", text = "Save" },
                 { id = "load", text = "Load" }
             },
