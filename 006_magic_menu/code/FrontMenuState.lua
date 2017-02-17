@@ -97,6 +97,12 @@ end
 function FrontMenuState:Exit()
 end
 
+function Selection:JumpToFirstItem()
+    self.mFocusY = 1
+    self.mFocusX = 1
+    self.mDisplayStart = 1
+end
+
 function FrontMenuState:OnMenuClick(index, item)
 
     if item.id == "items" then
@@ -120,11 +126,33 @@ function FrontMenuState:OnMenuClick(index, item)
         return
     end
 
+    self.mPartyMenu:JumpToFirstItem()
     self.mInPartyMenu = true
     self.mSelections:HideCursor()
     self.mPartyMenu:ShowCursor()
     self.mPrevTopBarText = self.mTopBarText
     self.mTopBarText = "Choose a party member"
+
+    if item.id == "magic" then
+        local member = self.mPartyMenu:SelectedItem()
+        local memberCount = #self.mPartyMenu.mDataSource
+
+        -- Start at the top and scroll down
+        -- until you hit a mage character
+
+        while member.mActor.mId ~= "mage" and
+            self.mPartyMenu.mFocusY < memberCount do
+
+            self.mPartyMenu:MoveDown()
+            member = self.mPartyMenu:SelectedItem()
+        end
+
+        if(member.mActor.mId ~= "mage") then
+            print("Couldn't find mage!");
+            self.mPartyMenu:JumpToFirstItem()
+        end
+
+    end
 end
 
 function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
