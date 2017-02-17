@@ -1,5 +1,3 @@
--- spell cast time 1 is based, 2 is twice as long etc
-
 SpellDB =
 {
     ["fire"] =
@@ -17,8 +15,8 @@ SpellDB =
             selector = "WeakestEnemy",
             switch_sides = true,
             type = "One"
-        }
-        --Damage = Spell Power * 4 + (Level * Magic Power * Spell Power / 32)
+        },
+        description = "Damages an enemy with elemental fire!"
     },
     ["burn"] =
     {
@@ -35,7 +33,8 @@ SpellDB =
             selector = "SideEnemy",
             switch_sides = true,
             type = "Side"
-        }
+        },
+        description = "Heavily damages all enemies with elemental fire!"
     },
     ["ice"] =
     {
@@ -52,7 +51,8 @@ SpellDB =
             selector = "WeakestEnemy",
             switch_sides = true,
             type = "One"
-        }
+        },
+        description = "Damages an enemy with a freezing ice attack!"
     },
     ["bolt"] =
     {
@@ -69,6 +69,7 @@ SpellDB =
             selector = "WeakestEnemy",
             switch_sides = true,
             type = "One"
-        }
+        },
+        description = "Damages an enemy with an electric bolt!"
     },
 }
