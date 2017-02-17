@@ -143,10 +143,25 @@ function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
     self.mStateMachine:Change(stateId, actor)
 end
 
-function FrontMenuState:Update(dt)
+    function FrontMenuState:HandlePartyMenuInput()
 
-    if self.mInPartyMenu then
+        local item = self.mSelections:SelectedItem()
+
+        if item.id == "magic" then
+            if Keyboard.JustPressed(KEY_SPACE) then
+                self.mPartyMenu:OnClick()
+            end
+            return
+        end
+
         self.mPartyMenu:HandleInput()
+
+    end
+
+    function FrontMenuState:Update(dt)
+
+        if self.mInPartyMenu then
+            self:HandlePartyMenuInput()
 
         if Keyboard.JustPressed(KEY_BACKSPACE) or
            Keyboard.JustPressed(KEY_ESCAPE) then
