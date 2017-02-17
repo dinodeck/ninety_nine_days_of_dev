@@ -54,6 +54,7 @@ Apply({
         "Scrollbar.lua",
         "ExploreState.lua",
         "Layout.lua",
+        "MagicMenuState.lua",
         "InGameMenuState.lua",
         "FrontMenuState.lua",
         "World.lua",
@@ -113,6 +114,5 @@ Apply({
         "StatsFontDef.lua",
         "CombatSpriteFx.lua",
         "DefaultFontDef.lua",
-        "MagicMenuState.lua",
     },
     function(v) Asset.Run(v) end)
