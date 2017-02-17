@@ -127,6 +127,12 @@ function Selection:Render(renderer)
     end
 end
 
+function Selection:JumpToFirstItem()
+    self.mFocusY = 1
+    self.mFocusX = 1
+    self.mDisplayStart = 1
+end
+
 function Selection:CanScrollUp()
     return self.mDisplayStart > 1
 end
