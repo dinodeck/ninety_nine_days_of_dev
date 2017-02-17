@@ -162,6 +162,7 @@ function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
     {
         [2] = "status",
         [3] = "equip",
+        [4] = "magic"
         -- more states can go here.
     }
 
