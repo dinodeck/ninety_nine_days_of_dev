@@ -393,6 +393,10 @@ manifest =
         {
             path = "code/font/DefaultFontDef.lua"
         },
+        ['MagicMenuState.lua'] =
+        {
+            path = "code/MagicMenuState.lua"
+        },
     },
     textures =
     {

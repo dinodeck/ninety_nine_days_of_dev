@@ -113,5 +113,6 @@ Apply({
         "StatsFontDef.lua",
         "CombatSpriteFx.lua",
         "DefaultFontDef.lua",
+        "MagicMenuState.lua",
     },
     function(v) Asset.Run(v) end)
