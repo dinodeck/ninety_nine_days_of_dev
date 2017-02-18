@@ -22,10 +22,10 @@ function FrontMenuState:Create(parent)
             spacingY = 28,
             data =
             {
-                { id = "items", text = "Items" },
-                { id = "status", text = "Status" },
-                { id = "equipment", text = "Equipment" },
-                { id = "magic", text = "Magic"},
+                { id = "items",     stateId = "items",  text = "Items" },
+                { id = "status",    stateId = "status", text = "Status" },
+                { id = "equipment", stateId = "equip",  text = "Equipment" },
+                { id = "magic",     stateId = "magic",  text = "Magic"},
                 { id = "save", text = "Save" },
                 { id = "load", text = "Load" }
             },
@@ -156,41 +156,33 @@ function FrontMenuState:OnMenuClick(index, item)
 end
 
 function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
-    -- Need to move state according to menu selection
 
-    local indexToStateId =
-    {
-        [2] = "status",
-        [3] = "equip",
-        [4] = "magic"
-        -- more states can go here.
-    }
-
+    local item = self.mSelections:SelectedItem()
     local actor = actorSummary.mActor
-    local index = self.mSelections:GetIndex()
-    local stateId = indexToStateId[index]
-    self.mStateMachine:Change(stateId, actor)
+
+    self.mStateMachine:Change(item.stateId, actor)
 end
 
-    function FrontMenuState:HandlePartyMenuInput()
+function FrontMenuState:HandlePartyMenuInput()
 
-        local item = self.mSelections:SelectedItem()
+    local item = self.mSelections:SelectedItem()
 
-        if item.id == "magic" then
-            if Keyboard.JustPressed(KEY_SPACE) then
-                self.mPartyMenu:OnClick()
-            end
-            return
+    if item.id == "magic" then
+        if Keyboard.JustPressed(KEY_SPACE) then
+            self.mPartyMenu:OnClick()
         end
-
-        self.mPartyMenu:HandleInput()
-
+        return
     end
 
-    function FrontMenuState:Update(dt)
+    self.mPartyMenu:HandleInput()
 
-        if self.mInPartyMenu then
-            self:HandlePartyMenuInput()
+end
+
+function FrontMenuState:Update(dt)
+
+    if self.mInPartyMenu then
+
+        self:HandlePartyMenuInput()
 
         if Keyboard.JustPressed(KEY_BACKSPACE) or
            Keyboard.JustPressed(KEY_ESCAPE) then
