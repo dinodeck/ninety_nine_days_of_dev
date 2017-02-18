@@ -69,13 +69,6 @@ end
 function MagicMenuState:Exit()
 end
 
-function MagicMenuState:CanCast(spellDef)
-    if not spellDef.can_use_on_map then
-       return false
-    end
-
-    return self.mCharacter:CanCast(spellDef)
-end
 
 function MagicMenuState:RenderSpell(menu, renderer, x, y, item)
 
@@ -86,11 +79,7 @@ function MagicMenuState:RenderSpell(menu, renderer, x, y, item)
     else
         local spell = SpellDB[item]
         local horzSpace = 96
-        local color = Vector.Create(107/255, 107/255, 107/255, 1)
-
-        if self:CanCast(spell) then
-            color = Vector.Create(1, 1, 1, 1)
-        end
+        local color = Vector.Create(1, 1, 1, 1)
 
         font:DrawText2d(renderer, x, y, spell.name, color)
         font:DrawText2d(renderer, x + horzSpace, y,
