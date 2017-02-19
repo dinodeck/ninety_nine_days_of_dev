@@ -27,4 +27,8 @@ MenuActorSelector =
 
     FirstDeadMember = function(targets)
     end,
+
+    SideParty = function(targets)
+        return targets -- return everyone!
+    end
 }

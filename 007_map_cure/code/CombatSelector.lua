@@ -85,6 +85,10 @@ CombatSelector =
         return state.mActors["enemy"]
     end,
 
+    SideParty = function(state)
+        return state.mActors["party"]
+    end,
+
     SelectAll = function(state)
         local targets = {}
 

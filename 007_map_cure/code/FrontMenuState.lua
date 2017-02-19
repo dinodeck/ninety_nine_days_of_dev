@@ -22,10 +22,10 @@ function FrontMenuState:Create(parent)
             spacingY = 28,
             data =
             {
-                { id = "items", text = "Items" },
-                { id = "status", text = "Status" },
-                { id = "equipment", text = "Equipment" },
-                { id = "magic", text = "Magic"},
+                { id = "items",     stateId = "items",  text = "Items" },
+                { id = "status",    stateId = "status", text = "Status" },
+                { id = "equipment", stateId = "equip",  text = "Equipment" },
+                { id = "magic",     stateId = "magic",  text = "Magic"},
                 { id = "save", text = "Save" },
                 { id = "load", text = "Load" }
             },
@@ -46,6 +46,7 @@ function FrontMenuState:Create(parent)
 
     setmetatable(this, self)
 
+
     this.mSelections.mX = this.mLayout:MidX("menu") - 60
     this.mSelections.mY = this.mLayout:Top("menu") - 24
 
@@ -65,32 +66,7 @@ function FrontMenuState:Create(parent)
     }
     this.mPartyMenu:HideCursor()
 
-    local partyX = this.mLayout:Left("party") - 16
-    local partyY = this.mLayout:Top("party") - 45
-    this.mPartyMenu:SetPosition(partyX, partyY)
-
     return this
-end
-
-function FrontMenuState:GetPartyAsSelectionTargets()
-    local targets = {}
-
-    local x = self.mPartyMenu.mX
-    local y = self.mPartyMenu.mY
-    local cursorWidth = self.mPartyMenu:CursorWidth()
-
-    for k, v in ipairs(self.mPartyMenu.mDataSource) do
-
-        local indexFrom0 = k - 1
-
-        table.insert(targets,
-                     {
-                        x = x + cursorWidth * 0.5,
-                        y = y - (indexFrom0 * self.mPartyMenu.mSpacingY),
-                        summary = v
-                    })
-    end
-    return targets
 end
 
 function FrontMenuState:RenderMenuItem(menu, renderer, x, y, item)
@@ -115,10 +91,18 @@ function FrontMenuState:RenderMenuItem(menu, renderer, x, y, item)
 end
 
 function FrontMenuState:Enter()
-
+    local partyX = self.mLayout:Left("party") - 16
+    local partyY = self.mLayout:Top("party") - 45
+    self.mPartyMenu:SetPosition(partyX, partyY)
 end
 
 function FrontMenuState:Exit()
+end
+
+function Selection:JumpToFirstItem()
+    self.mFocusY = 1
+    self.mFocusX = 1
+    self.mDisplayStart = 1
 end
 
 function FrontMenuState:OnMenuClick(index, item)
@@ -159,7 +143,7 @@ function FrontMenuState:OnMenuClick(index, item)
         -- until you hit a mage character
 
         while member.mActor.mId ~= "mage" and
-              self.mPartyMenu.mFocusY < memberCount do
+            self.mPartyMenu.mFocusY < memberCount do
 
             self.mPartyMenu:MoveDown()
             member = self.mPartyMenu:SelectedItem()
@@ -174,31 +158,17 @@ function FrontMenuState:OnMenuClick(index, item)
 end
 
 function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
-    -- Need to move state according to menu selection
 
-    local indexToStateId =
-    {
-        [2] = "status",
-        [3] = "equip",
-        [4] = "magic",
-        -- more states can go here.
-    }
-
+    local item = self.mSelections:SelectedItem()
     local actor = actorSummary.mActor
-    local index = self.mSelections:GetIndex()
-    local stateId = indexToStateId[index]
-    self.mStateMachine:Change(stateId, actor)
+
+    self.mStateMachine:Change(item.stateId, actor)
 end
 
 function FrontMenuState:HandlePartyMenuInput()
 
     local item = self.mSelections:SelectedItem()
 
-    --
-    -- In this game we only have one magic user
-    -- The player  will "select" them but they
-    -- won't be able to chose any other member
-    --
     if item.id == "magic" then
         if Keyboard.JustPressed(KEY_SPACE) then
             self.mPartyMenu:OnClick()
@@ -213,6 +183,7 @@ end
 function FrontMenuState:Update(dt)
 
     if self.mInPartyMenu then
+
         self:HandlePartyMenuInput()
 
         if Keyboard.JustPressed(KEY_BACKSPACE) or
@@ -246,6 +217,7 @@ function FrontMenuState:CreatePartySummaries()
         table.insert(out, summary)
     end
 
+    print("Out size", #out)
     return out
 end
 
@@ -284,6 +256,27 @@ function FrontMenuState:Render(renderer)
     self.mPartyMenu:Render(renderer)
 end
 
-function FrontMenuState:HideMenuOptionsCursor()
+function FrontMenuState:HideOptionsCursor()
     self.mSelections:HideCursor()
+end
+
+function FrontMenuState:GetPartyAsSelectionTargets()
+    local targets = {}
+
+    local x = self.mPartyMenu.mX
+    local y = self.mPartyMenu.mY
+    local cursorWidth = self.mPartyMenu:CursorWidth()
+
+    for k, v in ipairs(self.mPartyMenu.mDataSource) do
+
+        local indexFrom0 = k - 1
+
+        table.insert(targets,
+                     {
+                        x = x + cursorWidth * 0.5,
+                        y = y - (indexFrom0 * self.mPartyMenu.mSpacingY),
+                        summary = v
+                    })
+    end
+    return targets
 end

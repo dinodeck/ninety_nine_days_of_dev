@@ -110,6 +110,7 @@ gGame.Stack:Push(TitleScreenState:Create(gGame.Stack, storyboard))
 math.randomseed( os.time() )
 
 
+
 function update()
     local dt = GetDeltaTime()
     gGame.Stack:Update(dt)
@@ -117,8 +118,9 @@ function update()
     gGame.World:Update(dt)
 
     if Keyboard.JustPressed(KEY_H) then
-        gGame.World.mGameState.maps.cave.completed_puzzle = false
-        gGame.World.mParty:DebugHurtParty()
+        gGame.World:AddItem(16, 1)
+        -- gGame.World.mGameState.maps.cave.completed_puzzle = false
+        -- gGame.World.mParty:DebugHurtParty()
     end
 
     if Keyboard.JustPressed(KEY_T) then

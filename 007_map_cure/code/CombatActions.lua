@@ -24,15 +24,49 @@ local function StatsCharEntity(state, actor)
     return stats, character, entity
 end
 
+local function StatsForCombatState(targets)
+    local statList = {}
+    for k, v in ipairs(targets) do
+        table.insert(statList, v.mStats)
+    end
+    return statList
+end
+
+local function StatsForMenuState(targets)
+    local statList = {}
+    return statList
+end
+
 CombatActions =
 {
     ["hp_restore"] =
-    function(state, owner, targets, def)
+    function(state, owner, targets, def, stateId)
 
-        -- Items have a use sub-table
-        -- Spells don't
+        local extractStatFunction = StatsForCombatState
+        if stateId == "item" then
+            extractStatFunction = StatsForMenuState
+        end
 
+
+        local statList = extractStatFunction(targets)
         local restoreAmount = def.use.restore or 250
+        for k, v in ipairs(statList) do
+            local maxHP = v:Get("hp_max")
+            local nowHP = v:Get("hp_now")
+            if nowHP > 0 then
+                nowHP = math.min(maxHP, nowHP + restoreAmount)
+                v:Set("hp_now", nowHP)
+            end
+        end
+
+        if stateId == "item" then
+            return
+        end
+
+        --
+        -- Combat Effects
+        --
+
         local animEffect = gEntities.fx_restore_hp
         local restoreColor = Vector.Create(0, 1, 0, 1)
 
@@ -40,17 +74,11 @@ CombatActions =
 
             local stats, character, entity = StatsCharEntity(state, v)
 
-            local maxHP = stats:Get("hp_max")
-            local nowHP = stats:Get("hp_now")
-
-            if nowHP > 0 then
+            if stats:Get("hp_now") > 0 then
                 AddTextNumberEffect(state, entity, restoreAmount, restoreColor)
-                nowHP = math.min(maxHP, nowHP + restoreAmount)
-                stats:Set("hp_now", nowHP)
             end
 
             AddAnimEffect(state, entity, animEffect, 0.1)
-
         end
 
     end,

@@ -1,5 +1,5 @@
 
-name = "Polish 005 - Bitmap Text"
+name = "Polish 007 - Using Spells and Items Outside of Combat"
 width = 1280/2
 height = 720/2
 

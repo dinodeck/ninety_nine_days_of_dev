@@ -8,6 +8,8 @@ MenuTargetState = {}
 MenuTargetState.__index = MenuTargetState
 function MenuTargetState:Create(params)
 
+    print(params.selector)
+
     params = params or {}
 
     local this =
@@ -48,7 +50,7 @@ function MenuTargetState:Enter()
     end
 
     self.mFrontMenuState = self.mStateMachine:Current()
-    self.mFrontMenuState:HideMenuOptionsCursor()
+    self.mFrontMenuState:HideOptionsCursor()
 
     -- Need to get the list of targets with position
     -- Of the form { x = 0, y = 0, summary = Y }
@@ -107,10 +109,4 @@ function MenuTargetState:Back()
     if not self.mStartedInFrontMenu then
         self.mStateMachine:Change(self.mOriginalStateId)
     end
-end
-
--- Remove this function
-function MenuTargetState.DoSelection(params)
-    local targetState = MenuTargetState:Create(params)
-    params.stack:Push(targetState)
 end

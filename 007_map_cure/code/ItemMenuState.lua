@@ -84,16 +84,25 @@ function ItemMenuState:OnUseItem(index, item)
         return
     end
 
-    MenuTargetState.DoSelection
+    print(itemDef.use.target.selector)
+
+    local selectId = itemDef.use.target.selector
+
+    local targetState = MenuTargetState:Create
     {
         originId = "items",
         stack = gGame.Stack,
         stateMachine = self.mStateMachine,
-        targetType = MenuTargetType.One,
-        selector = MenuActorSelector["FirstMagicUser"],
+        targetType = itemDef.use.target.type,
+        selector = MenuActorSelector[selectId],
         OnCancel = function(target) print("Cancelled") end,
-        OnSelect = function(target) print("Selected", target) end
+        OnSelect = function(targets) self:OnItemTargetsSelected(itemDef, targets) end
     }
+    gGame.Stack:Push(targetState)
+end
+
+function ItemMenuState:OnItemTargetsSelected(targets)
+    -- apply the potion to everyone
 end
 
 function ItemMenuState:Enter()

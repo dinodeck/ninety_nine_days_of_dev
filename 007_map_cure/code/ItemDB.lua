@@ -189,7 +189,26 @@ ItemDB =
         name = "Keystone",
         type = "key",
         description = "A heavy stone orb."
-    }
+    },
+    {
+        name = "Mega Heal Potion",
+        type = "useable",
+        description = "Heal a small amount of HP.",
+        use =
+        {
+            action = "hp_restore",
+            restore = 250,
+            target =
+            {
+                selector = "SideParty",
+                switch_sides = true,
+                type = "Side"
+            },
+            hint = "Choose target to heal.",
+            can_use_on_map = true
+        },
+        price = 250,
+    },
 }
 
 EmptyItem = ItemDB[-1]
