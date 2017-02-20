@@ -123,6 +123,15 @@ function update()
         -- gGame.World.mParty:DebugHurtParty()
     end
 
+    if Keyboard.JustPressed(KEY_D) then
+        for k, v in pairs(gGame.World.mParty.mMembers) do
+            local stats = v.mStats
+            stats:Set("hp_now", stats:Get("hp_now")*0.5)
+        end
+        local megaHealPotionId = 16
+        gGame.World:AddItem(megaHealPotionId, 1)
+    end
+
     if Keyboard.JustPressed(KEY_T) then
         print("teleport!")
         gGame.World:RemoveKey(14)

@@ -35,7 +35,7 @@ function CombatTargetState:Create(context, params)
             this.mDefaultSelector = CombatSelector.WeakestEnemy
         elseif this.mTargetType == CombatTargetType.Side then
             this.mDefaultSelector = CombatSelector.SideEnemy
-        elseif this.mTargetType == CombatTargetType.All then
+        elseif this.mTargetType == CombatTargetType.All  then
             this.mDefaultSelector = CombatSelector.SelectAll
         end
 
@@ -129,7 +129,6 @@ function CombatTargetState:Down()
     end
 
     self.mTargets = { side[index] }
-
 end
 
 function CombatTargetState:Left()

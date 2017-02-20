@@ -30,6 +30,8 @@ function MenuTargetState:Create(params)
 
         OnSelect = params.OnSelect or function() end,
         OnCancel = params.OnCancel or function() end,
+
+        mIndex = 1, -- used in MenuTargetType.One
     }
 
     local markTexture = Texture.Find('cursor.png')
@@ -41,6 +43,8 @@ function MenuTargetState:Create(params)
 end
 
 function MenuTargetState:Enter()
+
+    self.mIndex = 1
 
     -- Selection for previous state should be ignored!
     self.mIgnoreSpaceRelease = Keyboard.JustPressed(KEY_SPACE)
@@ -59,9 +63,23 @@ function MenuTargetState:Enter()
     -- Filter the target by the selector
     self.mActiveTargets = self.mSelector(self.mTargets)
 
-    -- If the selector is of type one then we need to select a default target
+    if self.mTargetType == MenuTargetType.One then
+        self.mIndex = self:FindIndex()
+    end
 end
 
+function MenuTargetState:FindIndex()
+
+    for k, v in ipairs(self.mTargets) do
+        if self.mActiveTargets[1] == v then
+            return k
+        end
+    end
+
+    print("Error: Failed to find index!")
+    return 1
+
+end
 
 
 function MenuTargetState:Exit()
@@ -85,7 +103,7 @@ function MenuTargetState:HandleInput()
     -- we transition to
     if Keyboard.JustReleased(KEY_BACKSPACE) or
        Keyboard.JustReleased(KEY_ESCAPE) then
-        self:OnCancel()
+        self.OnCancel()
         self:Back()
     end
 
@@ -96,8 +114,54 @@ function MenuTargetState:HandleInput()
             return
         end
 
-        self:OnSelect(self.mActiveTargets)
+        self.OnSelect(self.mActiveTargets)
         self:Back()
+    end
+
+    if Keyboard.JustPressed(KEY_UP) then
+        self:Up()
+    elseif Keyboard.JustPressed(KEY_DOWN) then
+        self:Down()
+    end
+end
+
+function MenuTargetState:Up()
+    if self.mTargetType ~= MenuTargetType.One then
+        return
+    end
+
+    local newIndex = self.mIndex
+
+    while newIndex > 0 do
+        newIndex = newIndex - 1
+
+        local targets = self.mSelector({self.mTargets[newIndex]})
+
+        if next(targets) then
+            self.mIndex = newIndex
+            self.mActiveTargets = targets
+            return
+        end
+    end
+end
+
+function MenuTargetState:Down()
+    if self.mTargetType ~= MenuTargetType.One then
+        return
+    end
+
+    local newIndex = self.mIndex
+
+    while newIndex <= #self.mTargets do
+        newIndex = newIndex + 1
+
+        local targets = self.mSelector({self.mTargets[newIndex]})
+
+        if next(targets) then
+            self.mIndex = newIndex
+            self.mActiveTargets = targets
+            return
+        end
     end
 end
 

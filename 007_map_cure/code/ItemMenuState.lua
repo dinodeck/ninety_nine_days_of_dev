@@ -84,8 +84,6 @@ function ItemMenuState:OnUseItem(index, item)
         return
     end
 
-    print(itemDef.use.target.selector)
-
     local selectId = itemDef.use.target.selector
 
     local targetState = MenuTargetState:Create
@@ -101,8 +99,16 @@ function ItemMenuState:OnUseItem(index, item)
     gGame.Stack:Push(targetState)
 end
 
-function ItemMenuState:OnItemTargetsSelected(targets)
-    -- apply the potion to everyone
+function ItemMenuState:OnItemTargetsSelected(itemDef, targets)
+
+    local action = itemDef.use.action
+    CombatActions[action](self,
+                       nil, -- the person using the item
+                       targets,
+                       itemDef,
+                       "item")
+
+    gGame.World:RemoveItem(itemDef.id)
 end
 
 function ItemMenuState:Enter()

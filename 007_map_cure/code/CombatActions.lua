@@ -34,6 +34,10 @@ end
 
 local function StatsForMenuState(targets)
     local statList = {}
+    for k, v in pairs(targets) do
+        local stats = v.summary.mActor.mStats
+        table.insert(statList, stats)
+    end
     return statList
 end
 
@@ -46,7 +50,6 @@ CombatActions =
         if stateId == "item" then
             extractStatFunction = StatsForMenuState
         end
-
 
         local statList = extractStatFunction(targets)
         local restoreAmount = def.use.restore or 250
