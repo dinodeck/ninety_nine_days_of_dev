@@ -115,6 +115,29 @@ CombatActions =
     function(state, owner, targets, def)
 
         local restoreAmount = def.use.restore or 50
+
+        local extractStatFunction = StatsForCombatState
+        if stateId == "item" then
+            extractStatFunction = StatsForMenuState
+        end
+
+        local statList = extractStatFunction(targets)
+        for k, v in ipairs(statList) do
+
+            local maxMP = stats:Get("mp_max")
+            local nowMP = stats:Get("mp_now")
+            local nowHP = stats:Get("hp_now")
+
+            if nowHP > 0 then
+                nowMP = math.min(maxMP, nowMP + restoreAmount)
+                stats:Set("mp_now", nowMP)
+            end
+        end
+
+        if stateId == "item" then
+            return
+        end
+
         local animEffect = gEntities.fx_restore_mp
         local restoreColor = Vector.Create(130/255, 200/255, 237/255, 1)
 
@@ -122,14 +145,8 @@ CombatActions =
 
             local stats, character, entity = StatsCharEntity(state, v)
 
-            local maxMP = stats:Get("mp_max")
-            local nowMP = stats:Get("mp_now")
-            local nowHP = stats:Get("hp_now")
-
-            if nowHP > 0 then
+            if stats:Get("hp_now") > 0 then
                 AddTextNumberEffect(state, entity, restoreAmount, restoreColor)
-                nowMP = math.min(maxMP, nowMP + restoreAmount)
-                stats:Set("mp_now", nowMP)
             end
 
             AddAnimEffect(state, entity, animEffect, 0.1)
@@ -166,30 +183,49 @@ CombatActions =
     function(state, owner, targets, def)
 
         local restoreAmount = def.use.restore or 100
-        local animEffect = gEntities.fx_revive
-        local restoreColor = Vector.Create(0, 1, 0, 1)
 
-        for k, v in ipairs(targets) do
-            local stats, character, entity = StatsCharEntity(state, v)
+        local function DoCombatFX()
+            local animEffect = gEntities.fx_revive
+            local restoreColor = Vector.Create(0, 1, 0, 1)
+
+            for k, v in ipairs(targets) do
+                local stats, character, entity = StatsCharEntity(state, v)
+                local nowHP = stats:Get("hp_now")
+
+                if nowHP == 0 then
+                    -- the character will get a CETurn event automatically
+                    -- assigned next update
+                    character.mController:Change(CSStandby.mName)
+                    AddTextNumberEffect(state, entity, restoreAmount, restoreColor)
+                end
+
+                AddAnimEffect(state, entity, animEffect, 0.1)
+            end
+        end
+
+        -- Need to run the FX first as it
+        -- tests who's dead
+        if not (stateId == "item") then
+            DoCombatFX()
+        end
+
+        local extractStatFunction = StatsForCombatState
+        if stateId == "item" then
+            extractStatFunction = StatsForMenuState
+        end
+
+        local statList = extractStatFunction(targets)
+        for k, v in ipairs(statList) do
 
             local maxHP = stats:Get("hp_max")
             local nowHP = stats:Get("hp_now")
 
             if nowHP == 0 then
-
                 nowHP = math.min(maxHP, nowHP + restoreAmount)
-
-                -- the character will get a CETurn event automatically
-                -- assigned next update
-                character.mController:Change(CSStandby.mName)
-
                 stats:Set("hp_now", nowHP)
-
-                AddTextNumberEffect(state, entity, restoreAmount, restoreColor)
             end
-
-            AddAnimEffect(state, entity, animEffect, 0.1)
         end
+
     end,
 
     ['element_spell'] =
