@@ -117,12 +117,6 @@ function update()
     gGame.Stack:Render(gRenderer)
     gGame.World:Update(dt)
 
-    if Keyboard.JustPressed(KEY_H) then
-        gGame.World:AddItem(16, 1)
-        -- gGame.World.mGameState.maps.cave.completed_puzzle = false
-        -- gGame.World.mParty:DebugHurtParty()
-    end
-
     if Keyboard.JustPressed(KEY_D) then
         for k, v in pairs(gGame.World.mParty.mMembers) do
             local stats = v.mStats
@@ -130,6 +124,25 @@ function update()
         end
         local megaHealPotionId = 16
         gGame.World:AddItem(megaHealPotionId, 1)
+    end
+
+    if Keyboard.JustPressed(KEY_M) then
+        for k, v in pairs(gGame.World.mParty.mMembers) do
+            local stats = v.mStats
+            stats:Set("mp_now", stats:Get("mp_now")*0.5)
+        end
+        local manaPotion = 12
+        gGame.World:AddItem(manaPotion, 1)
+    end
+
+    if Keyboard.JustPressed(KEY_R) then
+        for k, v in pairs(gGame.World.mParty.mMembers) do
+            local stats = v.mStats
+            stats:Set("hp_now", 0)
+            break
+        end
+        local manaPotion = 11
+        gGame.World:AddItem(manaPotion, 1)
     end
 
     if Keyboard.JustPressed(KEY_T) then

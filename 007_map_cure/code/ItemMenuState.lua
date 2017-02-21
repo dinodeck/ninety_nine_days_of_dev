@@ -88,7 +88,7 @@ function ItemMenuState:OnUseItem(index, item)
 
     local targetState = MenuTargetState:Create
     {
-        originId = "items",
+        originState = self,
         stack = gGame.Stack,
         stateMachine = self.mStateMachine,
         targetType = itemDef.use.target.type,

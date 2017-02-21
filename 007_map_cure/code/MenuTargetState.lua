@@ -16,7 +16,7 @@ function MenuTargetState:Create(params)
     {
         mStack = params.stack,
         mStateMachine = params.stateMachine,
-        mOriginalStateId = params.originId,
+        mOriginalState = params.originState,
         mStartedInFrontMenu = (params.originId == "frontmenu"),
 
         mTargetType = params.targetType or MenuTargetType.One,
@@ -171,6 +171,6 @@ function MenuTargetState:Back()
 
     -- If we're not already in the front menu, then restore previous menu
     if not self.mStartedInFrontMenu then
-        self.mStateMachine:Change(self.mOriginalStateId)
+        self.mStateMachine.mCurrent = self.mOriginalState
     end
 end

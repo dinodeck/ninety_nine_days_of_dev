@@ -16,7 +16,8 @@ SpellDB =
             selector = "WeakestEnemy",
             switch_sides = true,
             type = "One"
-        }
+        },
+        description = "Damages an enemy with elemental fire!"
     },
     ["burn"] =
     {
@@ -32,7 +33,8 @@ SpellDB =
             selector = "SideEnemy",
             switch_sides = true,
             type = "Side"
-        }
+        },
+        description = "Heavily damages all enemies with elemental fire!"
     },
     ["ice"] =
     {
@@ -48,7 +50,8 @@ SpellDB =
             selector = "WeakestEnemy",
             switch_sides = true,
             type = "One"
-        }
+        },
+        description = "Damages an enemy with a freezing ice attack!"
     },
     ["bolt"] =
     {
@@ -64,7 +67,8 @@ SpellDB =
             selector = "WeakestEnemy",
             switch_sides = true,
             type = "One"
-        }
+        },
+        description = "Damages an enemy with an electric bolt!"
     },
     ["heal"] =
     {
@@ -81,5 +85,6 @@ SpellDB =
             switch_sides = true,
             type = "One"
         },
+        description = "Heals some health of a single party member."
     }
 }

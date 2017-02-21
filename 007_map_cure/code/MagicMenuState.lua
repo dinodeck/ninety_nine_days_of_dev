@@ -47,7 +47,7 @@ function MagicMenuState:Enter(character)
     self.mSpellMenu = Selection:Create
     {
         data = character.mMagic,
-        OnSelection = function() end,
+        OnSelection = function(...) self:OnCastSpell(...) end, -- new!
         spacingX = 256,
         displayRows = 6,
         spacingY = 28,
@@ -70,7 +70,7 @@ function MagicMenuState:Exit()
 end
 
 function MagicMenuState:CanCast(spellDef)
-    if not spellDef.can_use_on_map then
+    if spellDef == nil or not spellDef.can_use_on_map then
        return false
     end
 
@@ -192,4 +192,29 @@ function MagicMenuState:Render(renderer)
     local scrollY = self.mLayout:MidY("spells")
     self.mScrollbar:SetPosition(scrollX, scrollY)
     self.mScrollbar:Render(renderer)
+end
+
+function MagicMenuState:OnCastSpell(index, spellId)
+
+    local spellDef = SpellDB[spellId]
+
+    if self:CanCast(spellDef) then
+        local selectId = spellDef.target.selector
+        local targetState = MenuTargetState:Create
+        {
+            originState = self,
+            stack = gGame.Stack,
+            stateMachine = self.mStateMachine,
+            targetType = spellDef.target.type,
+            selector = MenuActorSelector[selectId],
+            OnCancel = function(target) print("Cancelled") end,
+            OnSelect = function(targets) self:OnSpellTargetsSelected(spellDef, targets) end
+        }
+        gGame.Stack:Push(targetState)
+
+    end
+end
+
+function MagicMenuState:OnSpellTargetsSelected(spellDef, targets)
+
 end
