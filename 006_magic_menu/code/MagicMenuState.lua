@@ -152,6 +152,10 @@ function MagicMenuState:Render(renderer)
     local mp = self.mCharacter.mStats:Get("mp_now")
     local maxMP = self.mCharacter.mStats:Get("mp_max")
     local counter = "%d/%d"
+
+    self.mMPBar:SetValue(mp)
+    self.mMPBar:Render(renderer)
+
     local mp = string.format(counter,
                              mp,
                              maxMP)
