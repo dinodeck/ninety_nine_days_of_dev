@@ -60,11 +60,7 @@ function CECastSpell:DoCast()
                             gEntities.fx_use_item.frames, 0.1)
     self.mState:AddEffect(effect)
 
-    local mp = self.mOwner.mStats:Get("mp_now")
-    local cost = self.mSpell.mp_cost
-    local mp = math.max(mp - cost, 0) -- don't handle fizzle
-
-    self.mOwner.mStats:Set("mp_now", mp)
+    self.mOwner:ReduceManaForSpell(self.mSpell)
 
     local action = self.mSpell.action
     CombatActions[action](self.mState,

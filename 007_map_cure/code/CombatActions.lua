@@ -87,10 +87,32 @@ CombatActions =
     end,
 
     ["hp_restore_spell"] =
-    function(state, owner, targets, def)
+    function(state, owner, targets, def, stateId)
+
+        local extractStatFunction = StatsForCombatState
+        if stateId == "magic_menu" then
+            extractStatFunction = StatsForMenuState
+        end
 
         local restoreAmount = def.base_heal or 100
         restoreAmount = restoreAmount * owner.mLevel
+        local statList = extractStatFunction(targets)
+
+        print(restoreAmount, #statList, next(statList))
+
+        for k, v in ipairs(statList) do
+            local maxHP = v:Get("hp_max")
+            local nowHP = v:Get("hp_now")
+            if nowHP > 0 then
+                nowHP = math.min(maxHP, nowHP + restoreAmount)
+                v:Set("hp_now", nowHP)
+            end
+        end
+
+        if stateId == "magic_menu" then
+            return
+        end
+
         local animEffect = gEntities.fx_restore_hp
         local restoreColor = Vector.Create(0, 1, 0, 1)
 
@@ -98,13 +120,10 @@ CombatActions =
 
             local stats, character, entity = StatsCharEntity(state, v)
 
-            local maxHP = stats:Get("hp_max")
             local nowHP = stats:Get("hp_now")
 
             if nowHP > 0 then
                 AddTextNumberEffect(state, entity, restoreAmount, restoreColor)
-                nowHP = math.min(maxHP, nowHP + restoreAmount)
-                stats:Set("hp_now", nowHP)
             end
 
             AddAnimEffect(state, entity, animEffect, 0.1)
@@ -112,7 +131,7 @@ CombatActions =
     end,
 
     ['mp_restore'] =
-    function(state, owner, targets, def)
+    function(state, owner, targets, def, stateId)
 
         local restoreAmount = def.use.restore or 50
 
@@ -124,13 +143,13 @@ CombatActions =
         local statList = extractStatFunction(targets)
         for k, v in ipairs(statList) do
 
-            local maxMP = stats:Get("mp_max")
-            local nowMP = stats:Get("mp_now")
-            local nowHP = stats:Get("hp_now")
+            local maxMP = v:Get("mp_max")
+            local nowMP = v:Get("mp_now")
+            local nowHP = v:Get("hp_now")
 
             if nowHP > 0 then
                 nowMP = math.min(maxMP, nowMP + restoreAmount)
-                stats:Set("mp_now", nowMP)
+                v:Set("mp_now", nowMP)
             end
         end
 
@@ -154,7 +173,7 @@ CombatActions =
     end,
 
     ['element_spell'] =
-    function(state, owner, targets, def)
+    function(state, owner, targets, def, stateId)
 
         local restoreAmount = def.base_heal or 100
         restoreAmount = restoreAmount * owner.mLevel
@@ -180,7 +199,7 @@ CombatActions =
     end,
 
     ['revive'] =
-    function(state, owner, targets, def)
+    function(state, owner, targets, def, stateId)
 
         local restoreAmount = def.use.restore or 100
 
@@ -217,19 +236,19 @@ CombatActions =
         local statList = extractStatFunction(targets)
         for k, v in ipairs(statList) do
 
-            local maxHP = stats:Get("hp_max")
-            local nowHP = stats:Get("hp_now")
+            local maxHP = v:Get("hp_max")
+            local nowHP = v:Get("hp_now")
 
             if nowHP == 0 then
                 nowHP = math.min(maxHP, nowHP + restoreAmount)
-                stats:Set("hp_now", nowHP)
+                v:Set("hp_now", nowHP)
             end
         end
 
     end,
 
     ['element_spell'] =
-    function(state, owner, targets, def)
+    function(state, owner, targets, def, stateId)
 
         for k, v in ipairs(targets) do
             local _, _, entity = StatsCharEntity(state, v)

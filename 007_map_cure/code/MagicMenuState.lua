@@ -14,10 +14,10 @@ function MagicMenuState:Create(parent)
     return this
 end
 
-function MagicMenuState:Enter(character)
+function MagicMenuState:Enter(actor)
 
-    -- Magic shown depends on the character.
-    self.mCharacter = character
+    -- Magic shown depends on the actor.
+    self.mActor = actor
 
     local layout = Layout:Create()
     layout:Contract('screen', 118, 40)
@@ -37,8 +37,8 @@ function MagicMenuState:Enter(character)
 
     self.mMPBar = ProgressBar:Create
     {
-        value = self.mCharacter.mStats:Get("mp_now"),
-        maximum = self.mCharacter.mStats:Get("mp_max"),
+        value = self.mActor.mStats:Get("mp_now"),
+        maximum = self.mActor.mStats:Get("mp_max"),
         background = Texture.Find("mpbackground.png"),
         foreground = Texture.Find("mpforeground.png"),
     }
@@ -46,7 +46,7 @@ function MagicMenuState:Enter(character)
 
     self.mSpellMenu = Selection:Create
     {
-        data = character.mMagic,
+        data = actor.mMagic,
         OnSelection = function(...) self:OnCastSpell(...) end, -- new!
         spacingX = 256,
         displayRows = 6,
@@ -74,7 +74,7 @@ function MagicMenuState:CanCast(spellDef)
        return false
     end
 
-    return self.mCharacter:CanCast(spellDef)
+    return self.mActor:CanCast(spellDef)
 end
 
 function MagicMenuState:RenderSpell(menu, renderer, x, y, item)
@@ -154,14 +154,17 @@ function MagicMenuState:Render(renderer)
     font:AlignText("left", "center")
     local charX = self.mLayout:Left("char")
     local charY = self.mLayout:MidY("char")
-    font:DrawText2d(renderer, charX + 10, charY, self.mCharacter.mName)
+    font:DrawText2d(renderer, charX + 10, charY, self.mActor.mName)
 
     -- MP BAR and STATS
     local statFont = gGame.Font.stat
+
+    local mp = self.mActor.mStats:Get("mp_now")
+    local maxMP = self.mActor.mStats:Get("mp_max")
+
+    self.mMPBar:SetValue(mp)
     self.mMPBar:Render(renderer)
 
-    local mp = self.mCharacter.mStats:Get("mp_now")
-    local maxMP = self.mCharacter.mStats:Get("mp_max")
     local counter = "%d/%d"
     local mp = string.format(counter,
                              mp,
@@ -216,5 +219,12 @@ function MagicMenuState:OnCastSpell(index, spellId)
 end
 
 function MagicMenuState:OnSpellTargetsSelected(spellDef, targets)
-
+    self.mActor:ReduceManaForSpell(spellDef)
+    local action = spellDef.action
+    print(action)
+    CombatActions[action](self.mState,
+                           self.mActor,
+                           targets,
+                           spellDef,
+                           "magic_menu")
 end

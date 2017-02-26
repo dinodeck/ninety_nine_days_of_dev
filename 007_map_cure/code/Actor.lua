@@ -364,5 +364,12 @@ function Actor:CanUse(item)
 end
 
 function Actor:CanCast(spellDef)
-    return spellDef.mp_cost < self.mStats:Get("mp_now")
+    return spellDef.mp_cost <= self.mStats:Get("mp_now")
+end
+
+function Actor:ReduceManaForSpell(spellDef)
+    local mp = self.mStats:Get("mp_now")
+    local cost = spellDef.mp_cost
+    local mp = math.max(mp - cost, 0)
+    self.mStats:Set("mp_now", mp)
 end
